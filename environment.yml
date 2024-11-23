@@ -1,0 +1,15 @@
+name: marker
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.11
+
+  - poetry=1.8.4
+
+  - pytorch==2.4.1
+
+  - streamlit==1.37.1
+
+  - pip:
+    - -e ./marker
