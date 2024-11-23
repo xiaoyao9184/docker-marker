@@ -1,0 +1,209 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debugpy: marker_app mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "console": "integratedTerminal",
+            "args": [
+                "run",
+                "${workspaceFolder}/marker/marker_app.py"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker_app offline",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "console": "integratedTerminal",
+            "args": [
+                "run",
+                "${workspaceFolder}/marker/marker_app.py"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_layout3/snapshots/6f4c319b213ddbe736c9fe6de87ad7dc3bbb0a1e",
+                "ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_order/snapshots/7b727d0a2c942cdc8596d186115f65c12c812bd8",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker_server mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/marker_server.py",
+            "console": "integratedTerminal",
+            "args": ["--port", "8001", "--api_key", "API_KEY"],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker_server offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/marker_server.py",
+            "console": "integratedTerminal",
+            "args": ["--port", "8001", "--api_key", "API_KEY"],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_layout3/snapshots/6f4c319b213ddbe736c9fe6de87ad7dc3bbb0a1e",
+                "ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_order/snapshots/7b727d0a2c942cdc8596d186115f65c12c812bd8",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: convert_single mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/convert_single.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in/file.pdf",
+                "${workspaceFolder}/md_out",
+                "--batch_multiplier", "2", "--max_pages", "10"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: convert_single offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/convert_single.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in/file.pdf",
+                "${workspaceFolder}/md_out",
+                "--batch_multiplier", "2", "--max_pages", "10"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_layout3/snapshots/6f4c319b213ddbe736c9fe6de87ad7dc3bbb0a1e",
+                "ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_order/snapshots/7b727d0a2c942cdc8596d186115f65c12c812bd8",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: convert mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/convert.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in",
+                "${workspaceFolder}/md_out",
+                "--workers", "4", "--max", "10"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: convert offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/convert.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in",
+                "${workspaceFolder}/md_out",
+                "--workers", "4", "--max", "10"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_layout3/snapshots/6f4c319b213ddbe736c9fe6de87ad7dc3bbb0a1e",
+                "ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_order/snapshots/7b727d0a2c942cdc8596d186115f65c12c812bd8",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: chunk_convert mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/chunk_convert.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in",
+                "${workspaceFolder}/md_out"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090",
+                "METADATA_FILE": "../pdf_meta.json",
+                "NUM_DEVICES": "4",
+                "NUM_WORKERS": "15"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: chunk_convert offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/marker/chunk_convert.py",
+            "console": "integratedTerminal",
+            "args": [
+                "${workspaceFolder}/pdf_in",
+                "${workspaceFolder}/md_out"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_layout3/snapshots/6f4c319b213ddbe736c9fe6de87ad7dc3bbb0a1e",
+                "ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_order/snapshots/7b727d0a2c942cdc8596d186115f65c12c812bd8",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+                "METADATA_FILE": "../pdf_meta.json",
+                "NUM_DEVICES": "4",
+                "NUM_WORKERS": "15"
+            },
+            "justMyCode": false
+        }
+    ]
+}
