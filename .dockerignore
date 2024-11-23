@@ -1,0 +1,12 @@
+marker/.git/
+marker/.github/
+marker/benchmark/
+marker/data/
+marker/docs/
+marker/scripts/
+marker/signatures/
+marker/static/
+marker/.gitignore
+marker/poetry.lock
+# Ignore generated files
+**/*.pyc

@@ -1,0 +1,40 @@
+
+FROM alpine/curl:latest AS fonts
+
+WORKDIR /fonts
+
+RUN curl -L -o /fonts/GoNotoCurrent-Regular.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCurrent-Regular.ttf \
+    && curl -L -o /fonts/GoNotoCJKCore.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCJKCore.ttf
+
+
+FROM pytorch/pytorch:2.4.1-cuda12.4-cudnn9-runtime
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libgl1-mesa-glx \
+    libsm6 \
+    libxext6 \
+    libglib2.0-0 \
+    libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip
+
+COPY ./marker /app
+RUN pip3 install --no-cache-dir -e . "streamlit==1.39.0"
+# The image is too large, with layers exceeding 10GB.
+# RUN pip3 install poetry
+# RUN poetry install --no-root --with dev
+
+# COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /fonts/GoNotoCurrent-Regular.ttf
+# COPY --from=fonts /fonts/GoNotoCJKCore.ttf /fonts/GoNotoCJKCore.ttf
+COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /opt/conda/lib/python3.11/site-packages/static/fonts/GoNotoCurrent-Regular.ttf
+COPY --from=fonts /fonts/GoNotoCJKCore.ttf /opt/conda/lib/python3.11/site-packages/static/fonts/GoNotoCJKCore.ttf
+
+EXPOSE 8501
+
+VOLUME /root/.cache
+
+CMD ["marker_gui"]
