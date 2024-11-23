@@ -1,0 +1,18 @@
+
+
+services:
+  marker_app:
+    image: xiaoyao9184/marker:master
+    container_name: marker_pdf_app
+    environment:
+      - TORCH_DEVICE=cuda
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
