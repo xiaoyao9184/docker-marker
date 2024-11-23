@@ -1,0 +1,70 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker: compose up@cpu-online",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up@cpu-online/"
+            },
+            "command": "docker compose -p marker up"
+        },
+        {
+            "label": "docker: build master",
+            "type": "shell",
+            "command": "docker build -t xiaoyao9184/marker:master -f ./docker/build@source/dockerfile ."
+        },
+        {
+            "label": "docker: build 0.3.10",
+            "type": "shell",
+            "command": "docker build -t xiaoyao9184/marker:0.3.10 -f ./docker/build@pypi/dockerfile ."
+        },
+        {
+            "label": "huggingface-cli: download models",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000"
+                }
+            },
+            "command": [
+                "huggingface-cli download vikp/surya_det3 --revision main --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download vikp/surya_layout3 --revision main --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download vikp/surya_order --revision main --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download vikp/surya_rec2 --revision main --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download vikp/surya_tablerec --revision main --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download vikp/texify --revision main --cache-dir ./cache/huggingface/hub"
+            ]
+        },
+        {
+            "label": "conda: run marker_gui",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/marker",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                    "STREAMLIT_SERVER_PORT": "8501",
+                    "XDG_CACHE_HOME": "${workspaceFolder}/cache"
+                }
+            },
+            "command": [
+                "conda run --no-capture-output -n marker poetry run marker_gui"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "conda: create env",
+            "type": "shell",
+            "command": [
+                "conda env create -f ./environment.yml"
+            ]
+        }
+    ]
+}
