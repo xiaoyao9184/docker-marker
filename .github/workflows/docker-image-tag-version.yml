@@ -13,11 +13,11 @@ on:
       marker_version:
         description: marker version of pypi
         required: true
-        default: 0.3.10
+        default: 1.0.0
       streamlit_version:
         description: streamlit version of pypi
         required: true
-        default: 1.39.0
+        default: 1.40.2
 
 jobs:
   build-and-push-docker-image:
@@ -29,9 +29,9 @@ jobs:
     strategy:
       matrix:
         MARKER_VERSION:
-          - ${{ github.event.inputs.marker_version || '0.3.10' }}
+          - ${{ github.event.inputs.marker_version || '1.0.0' }}
         STREAMLIT_VERSION:
-          - ${{ github.event.inputs.streamlit_version || '1.39.0' }}
+          - ${{ github.event.inputs.streamlit_version || '1.40.2' }}
         platform:
           - linux/amd64
 
