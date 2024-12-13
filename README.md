@@ -24,7 +24,7 @@ A good solution is to manually trigger the action and tag it with the commit id.
 The default image name format is `${DOCKERHUB_USERNAME}/marker`.
 
 The tag uses the input parameter `commit_id`,
-which can be either a branch name or a commit id, 
+which can be either a branch name or a commit id,
 when manually triggering the [docker-image-tag-commit](./.github/workflows/docker-image-tag-commit.yml) job.
 if the job is triggered by a submodule update push,
 the default branch name `master` will be used instead of the `commit_id` parameter.
