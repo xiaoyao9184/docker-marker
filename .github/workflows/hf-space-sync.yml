@@ -1,0 +1,25 @@
+
+name: HuggingFace Space Sync
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  push-hf-space:
+    name: Push source code to HuggingFace
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync to HuggingFace
+        uses: nateraw/huggingface-sync-action@v0.0.5
+        with:
+          github_repo_id: 'xiaoyao9184/docker-marker'
+          huggingface_repo_id: '${{ secrets.HF_USERNAME }}/marker'
+          hf_token: ${{ secrets.HF_TOKEN }}
+          repo_type: 'space'
+          private: false
+          space_sdk: 'gradio'
+          subdirectory: 'gradio'
