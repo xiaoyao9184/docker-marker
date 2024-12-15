@@ -4,6 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "docker: compose up.gradio@gpu-offline",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/docker/up.gradio@gpu-offline/"
+            },
+            "command": "docker compose -p marker up"
+        },
+        {
             "label": "docker: compose up@cpu-online",
             "type": "shell",
             "options": {
@@ -39,6 +47,23 @@
                 "&& huggingface-cli download vikp/texify --revision main --cache-dir ./cache/huggingface/hub",
                 "&& huggingface-cli download datalab-to/surya_layout0 --revision main --cache-dir ./cache/huggingface/hub",
             ]
+        },
+        {
+            "label": "conda: gradio gradio_app",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/",
+                "env": {
+                    // "HF_ENDPOINT": "https://hf-mirror.com",
+                    // "HF_HUB_ETAG_TIMEOUT": "1000",
+                    // "HF_HUB_DOWNLOAD_TIMEOUT": "1000",
+                    "XDG_CACHE_HOME": "${workspaceFolder}/cache"
+                }
+            },
+            "command": [
+                "conda run --no-capture-output -n marker gradio gradio/gradio_app.py"
+            ],
+            "problemMatcher": []
         },
         {
             "label": "conda: run marker_gui",
