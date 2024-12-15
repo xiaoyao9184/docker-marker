@@ -1,0 +1,4 @@
+torch==2.5.1
+marker-pdf==1.0.0
+gradio==5.8.0
+huggingface-hub==0.26.3
