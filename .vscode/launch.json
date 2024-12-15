@@ -2,6 +2,47 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "debugpy: marker gradio mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${env:CONDA_PREFIX}/envs/marker/bin/gradio",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${workspaceFolder}/gradio/gradio_app.py"
+            ],
+            "env": {
+                "APP_PATH": "${workspaceFolder}/marker",
+                "PYDEVD_DISABLE_FILE_VALIDATION": "1",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker gradio offline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${env:CONDA_PREFIX}/envs/marker/bin/gradio",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "${workspaceFolder}/gradio/gradio_app.py"
+            ],
+            "env": {
+                "APP_PATH": "${workspaceFolder}/marker",
+                "PYDEVD_DISABLE_FILE_VALIDATION": "1",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya_layout0/snapshots/421ac206a400227ea714d47a405e53ce74374957",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/huggingface/hub/models--vikp--surya_tablerec/snapshots/8bca165f81e9cee5fb382413eb23175079917d14",
+                "TEXIFY_MODEL_NAME": "${workspaceFolder}/cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d"
+            },
+            "justMyCode": false
+        },
+        {
             "name": "debugpy: marker_app mirror",
             "type": "debugpy",
             "request": "launch",
