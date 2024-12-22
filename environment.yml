@@ -8,7 +8,7 @@ dependencies:
 
   - poetry=1.8.4
 
-  - pytorch==2.4.1
+  - pytorch==2.5.1
   - pytorch-cuda==12.4
 
   - streamlit==1.40.2
