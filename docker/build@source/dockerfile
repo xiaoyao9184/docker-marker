@@ -25,7 +25,7 @@ RUN pip3 install --upgrade pip
 COPY ./marker /app
 RUN pip3 install --no-cache-dir \
     -e . \
-    streamlit==1.40.2 \
+    streamlit==1.41.0 \
     gradio==5.8.0
 # The image is too large, with layers exceeding 10GB.
 # RUN pip3 install poetry

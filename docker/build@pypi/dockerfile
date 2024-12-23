@@ -1,5 +1,5 @@
-ARG MARKER_VERSION=1.0.2
-ARG STREAMLIT_VERSION=1.40.2
+ARG MARKER_VERSION=1.1.0
+ARG STREAMLIT_VERSION=1.41.0
 ARG GRADIO_VERSION=5.8.0
 
 
@@ -34,8 +34,6 @@ RUN pip3 install --no-cache-dir \
     marker-pdf==${MARKER_VERSION} \
     streamlit==${STREAMLIT_VERSION} \
     gradio==${GRADIO_VERSION}
-
-COPY ./gradio /workspace/gradio
 
 # COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /fonts/GoNotoCurrent-Regular.ttf
 # COPY --from=fonts /fonts/GoNotoCJKCore.ttf /fonts/GoNotoCJKCore.ttf
