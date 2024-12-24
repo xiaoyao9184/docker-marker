@@ -2,9 +2,12 @@ import os
 import sys
 
 if "APP_PATH" in os.environ:
-    os.chdir(os.environ["APP_PATH"])
-    # fix sys.path for import
-    sys.path.append(os.getcwd())
+    app_path = os.path.abspath(os.environ["APP_PATH"])
+    if os.getcwd() != app_path:
+        # fix sys.path for import
+        os.chdir(app_path)
+    if app_path not in sys.path:
+        sys.path.append(app_path)
 
 import gradio as gr
 
@@ -27,8 +30,7 @@ from marker.output import text_from_rendered
 def load_models():
     return create_model_dict()
 
-def convert_pdf(fname: str, **kwargs) -> (str, Dict[str, Any], dict):
-    config_parser = ConfigParser(kwargs)
+def convert_pdf(fname: str, config_parser: ConfigParser) -> (str, Dict[str, Any], dict):
     config_dict = config_parser.generate_config_dict()
     config_dict["pdftext_workers"] = 1
     converter = PdfConverter(
@@ -57,9 +59,6 @@ def get_page_image(pdf_file, page_num, dpi=96):
     png_image = png.convert("RGB")
     return png_image
 
-def get_uploaded_image(in_file):
-    return Image.open(in_file).convert("RGB")
-
 
 def img_to_html(img, img_alt):
     img_bytes = io.BytesIO()
@@ -80,8 +79,9 @@ def markdown_insert_images(markdown, images):
             markdown = markdown.replace(image_markdown, img_to_html(images[image_path], image_alt))
     return markdown
 
-
-model_dict = load_models()
+# Load models if not already loaded in reload mode
+if 'model_dict' not in globals():
+    model_dict = load_models()
 
 with gr.Blocks(title="Marker") as demo:
     gr.Markdown("""
@@ -94,54 +94,63 @@ with gr.Blocks(title="Marker") as demo:
 
     with gr.Row():
         with gr.Column():
-            in_file = gr.File(label="PDF file or image:", file_types=[".pdf", ".png", ".jpg", ".jpeg", ".gif", ".webp"])
-            in_num = gr.Slider(label="Page number", minimum=1, maximum=100, value=1, step=1)
-            in_img = gr.Image(label="Select page of Image", type="pil", sources=None)
+            in_file = gr.File(label="PDF file:", file_types=[".pdf"])
+            in_num = gr.Slider(label="PDF file page number", minimum=1, maximum=1, value=1, step=1, visible=False)
+            in_img = gr.Image(label="PDF file (preview)", type="pil", sources=None, visible=False)
 
             page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"0-0")
             output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html"], value="markdown")
 
             force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
             debug_ckb = gr.Checkbox(label="Debug", value=False, info="Show debug information")
-            trun_marker_btn = gr.Button("Run Marker")
+            trun_marker_btn = gr.Button("Run Marker", interactive=False)
         with gr.Column():
-            result_md = gr.Markdown(label="Result markdown")
-            result_json = gr.JSON(label="Result json")
-            result_html = gr.Markdown(label="Result html")
+            result_md = gr.Markdown(label="Result markdown", visible=False)
+            result_json = gr.JSON(label="Result json", visible=False)
+            result_html = gr.Markdown(label="Result html", visible=False)
             debug_img_pdf = gr.Image(label="PDF debug image", visible=False)
             debug_img_layout = gr.Image(label="Layout debug image", visible=False)
 
         def show_image(file, num=1):
-            if file.endswith('.pdf'):
-                count = count_pdf(file)
-                img = get_page_image(file, num)
+            if file is None:
                 return [
-                    gr.update(visible=True, maximum=count),
-                    gr.update(value=img)]
-            else:
-                img = get_uploaded_image(file)
-                return [
+                    gr.update(visible=False, maximum=1, value=num),
                     gr.update(visible=False),
-                    gr.update(value=img)]
+                    "0-0"]
+            count = count_pdf(file)
+            img = get_page_image(file, num)
+            return [
+                gr.update(visible=True, maximum=count),
+                gr.update(visible=True, value=img),
+                f"0-{num-1}"]
 
+        in_file.clear(
+            fn=show_image,
+            inputs=[in_file],
+            outputs=[in_num, in_img, page_range_txt]
+        )
         in_file.upload(
             fn=show_image,
             inputs=[in_file],
-            outputs=[in_num, in_img],
+            outputs=[in_num, in_img, page_range_txt]
         )
         in_num.change(
             fn=show_image,
             inputs=[in_file, in_num],
-            outputs=[in_num, in_img],
+            outputs=[in_num, in_img, page_range_txt]
         )
 
         def check_page_range(page_range, file):
             count = count_pdf(file) if file is not None else 1
             if not re.match(r"^(\d+(-\d+)?)?$", page_range):
                 gr.Warning(f"Invalid format. Please use 0-{count-1}", duration=0)
-                return gr.update(info=f"format 0-{count-1}"), gr.update(interactive=False)
+                return [
+                    gr.update(info=f"format 0-{count-1}"),
+                    gr.update(interactive=False)]
             else:
-                return gr.update(info=f"format 0-{count-1}"), gr.update(interactive=True)
+                return [
+                    gr.update(info=f"format 0-{count-1}"),
+                    gr.update(interactive=True)]
         page_range_txt.change(
             fn=check_page_range,
             inputs=[page_range_txt, in_file],
@@ -150,28 +159,34 @@ with gr.Blocks(title="Marker") as demo:
 
         # Run Marker
         def run_marker_img(filename, page_range, force_ocr, output_format, debug):
+            cli_options = {
+                "output_format": output_format,
+                "page_range": page_range,
+                "force_ocr": force_ocr,
+                "debug": debug,
+                "output_dir": settings.DEBUG_DATA_FOLDER if debug else None,
+            }
+            config_parser = ConfigParser(cli_options)
             rendered = convert_pdf(
                 filename,
-                page_range=page_range,
-                force_ocr=force_ocr,
-                output_format=output_format,
-                output_dir=settings.DEBUG_DATA_FOLDER if debug else None,
-                debug=debug
+                config_parser
             )
-            text, ext, images = text_from_rendered(rendered)
-            
             gr_debug_pdf = gr.update(visible=False)
             gr_debug_lay = gr.update(visible=False)
             if debug:
                 debug_data_path = rendered.metadata.get("debug_data_path")
                 if debug_data_path:
-                    pdf_image_path = os.path.join(debug_data_path, f"pdf_page_0.png")
+                    page_range = config_parser.generate_config_dict()["page_range"]
+                    first_page = page_range[0] if page_range else 0
+
+                    pdf_image_path = os.path.join(debug_data_path, f"pdf_page_{first_page}.png")
                     img = Image.open(pdf_image_path)
                     gr_debug_pdf = gr.update(visible=True, value=img)
-                    layout_image_path = os.path.join(debug_data_path, f"layout_page_0.png")
+                    layout_image_path = os.path.join(debug_data_path, f"layout_page_{first_page}.png")
                     img = Image.open(layout_image_path)
                     gr_debug_lay = gr.update(visible=True, value=img)
 
+            text, ext, images = text_from_rendered(rendered)
             if output_format == "markdown":
                 text = markdown_insert_images(text, images)
                 return [
@@ -197,11 +212,12 @@ with gr.Blocks(title="Marker") as demo:
                     gr_debug_pdf,
                     gr_debug_lay
                 ]
-           
+
         trun_marker_btn.click(
             fn=run_marker_img,
             inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, debug_ckb],
-            outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout],
+            outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout]
         )
 
-demo.launch()
+if __name__ == "__main__":
+    demo.launch()
