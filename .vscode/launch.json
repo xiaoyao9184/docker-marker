@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debugpy: marker gradio mirror",
+            "name": "debugpy: gradio_run mirror",
             "type": "debugpy",
             "request": "launch",
-            "program": "${env:CONDA_PREFIX}/envs/marker/bin/gradio",
+            "program": "${workspaceFolder}/gradio/gradio_run.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": [
@@ -20,10 +20,10 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker gradio offline",
+            "name": "debugpy: gradio_run offline",
             "type": "debugpy",
             "request": "launch",
-            "program": "${env:CONDA_PREFIX}/envs/marker/bin/gradio",
+            "program": "${workspaceFolder}/gradio/gradio_run.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": [
@@ -121,7 +121,7 @@
             "program": "${workspaceFolder}/marker/convert_single.py",
             "console": "integratedTerminal",
             "args": [
-                "${workspaceFolder}/pdf_in/file.pdf",
+                "${workspaceFolder}/pdf_in/2304.03442v2.pdf",
                 "--output_dir", "${workspaceFolder}/md_out"
             ],
             "env": {
@@ -138,7 +138,7 @@
             "program": "${workspaceFolder}/marker/convert_single.py",
             "console": "integratedTerminal",
             "args": [
-                "${workspaceFolder}/pdf_in/file.pdf",
+                "${workspaceFolder}/pdf_in/2304.03442v2.pdf",
                 "--output_dir", "${workspaceFolder}/md_out"
             ],
             "env": {
