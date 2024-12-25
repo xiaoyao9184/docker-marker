@@ -75,7 +75,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/marker
           tags: |
             type=raw,value=${{ matrix.MARKER_VERSION }}
-            type=raw,value=lastet
+            type=raw,value=latest
           flavor: |
             latest=false
 
