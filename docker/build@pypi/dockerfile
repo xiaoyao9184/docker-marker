@@ -1,5 +1,5 @@
-ARG MARKER_VERSION=1.1.0
-ARG STREAMLIT_VERSION=1.41.0
+ARG MARKER_VERSION=1.2.0
+ARG STREAMLIT_VERSION=1.41.1
 ARG GRADIO_VERSION=5.8.0
 
 
@@ -33,7 +33,8 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir \
     marker-pdf==${MARKER_VERSION} \
     streamlit==${STREAMLIT_VERSION} \
-    gradio==${GRADIO_VERSION}
+    gradio==${GRADIO_VERSION} \
+    datasets==2.21.0
 
 # COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /fonts/GoNotoCurrent-Regular.ttf
 # COPY --from=fonts /fonts/GoNotoCJKCore.ttf /fonts/GoNotoCJKCore.ttf

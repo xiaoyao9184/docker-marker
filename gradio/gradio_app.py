@@ -98,12 +98,14 @@ with gr.Blocks(title="Marker") as demo:
             in_num = gr.Slider(label="PDF file page number", minimum=1, maximum=1, value=1, step=1, visible=False)
             in_img = gr.Image(label="PDF file (preview)", type="pil", sources=None, visible=False)
 
-            page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"0-0")
+            page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"")
             output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html"], value="markdown")
 
             force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
             debug_ckb = gr.Checkbox(label="Debug", value=False, info="Show debug information")
-            trun_marker_btn = gr.Button("Run Marker", interactive=False)
+            use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
+            strip_existing_ocr_ckb = gr.Checkbox(label="Strip existing OCR", value=False, info="Strip existing OCR text from the PDF and re-OCR.")
+            run_marker_btn = gr.Button("Run Marker", interactive=False)
         with gr.Column():
             result_md = gr.Markdown(label="Result markdown", visible=False)
             result_json = gr.JSON(label="Result json", visible=False)
@@ -154,17 +156,19 @@ with gr.Blocks(title="Marker") as demo:
         page_range_txt.change(
             fn=check_page_range,
             inputs=[page_range_txt, in_file],
-            outputs=[page_range_txt, trun_marker_btn]
+            outputs=[page_range_txt, run_marker_btn]
         )
 
         # Run Marker
-        def run_marker_img(filename, page_range, force_ocr, output_format, debug):
+        def run_marker_img(filename, page_range, force_ocr, output_format, debug, use_llm, strip_existing_ocr):
             cli_options = {
                 "output_format": output_format,
                 "page_range": page_range,
                 "force_ocr": force_ocr,
                 "debug": debug,
                 "output_dir": settings.DEBUG_DATA_FOLDER if debug else None,
+                "use_llm": use_llm,
+                "strip_existing_ocr": strip_existing_ocr
             }
             config_parser = ConfigParser(cli_options)
             rendered = convert_pdf(
@@ -213,9 +217,9 @@ with gr.Blocks(title="Marker") as demo:
                     gr_debug_lay
                 ]
 
-        trun_marker_btn.click(
+        run_marker_btn.click(
             fn=run_marker_img,
-            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, debug_ckb],
+            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb],
             outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout]
         )
 
