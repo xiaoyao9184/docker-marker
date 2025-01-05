@@ -16,4 +16,3 @@ dependencies:
   - pip:
     - -e ./marker
     - gradio==5.8.0
-    - datasets==2.21.0
