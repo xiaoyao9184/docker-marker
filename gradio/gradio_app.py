@@ -129,17 +129,20 @@ with gr.Blocks(title="Marker") as demo:
         in_file.clear(
             fn=show_image,
             inputs=[in_file],
-            outputs=[in_num, in_img, page_range_txt]
+            outputs=[in_num, in_img, page_range_txt],
+            api_name=False
         )
         in_file.upload(
             fn=show_image,
             inputs=[in_file],
-            outputs=[in_num, in_img, page_range_txt]
+            outputs=[in_num, in_img, page_range_txt],
+            api_name=False
         )
         in_num.change(
             fn=show_image,
             inputs=[in_file, in_num],
-            outputs=[in_num, in_img, page_range_txt]
+            outputs=[in_num, in_img, page_range_txt],
+            api_name=False
         )
 
         def check_page_range(page_range, file):
@@ -156,7 +159,8 @@ with gr.Blocks(title="Marker") as demo:
         page_range_txt.change(
             fn=check_page_range,
             inputs=[page_range_txt, in_file],
-            outputs=[page_range_txt, run_marker_btn]
+            outputs=[page_range_txt, run_marker_btn],
+            api_name=False
         )
 
         # Run Marker
