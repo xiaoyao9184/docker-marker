@@ -16,3 +16,5 @@ dependencies:
   - pip:
     - -e ./marker
     - gradio==5.8.0
+    - transformers==4.47.1
+    - pydantic==2.10.5

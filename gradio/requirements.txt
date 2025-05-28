@@ -2,3 +2,6 @@ torch==2.5.1
 marker-pdf==1.2.3
 gradio==5.8.0
 huggingface-hub==0.26.3
+
+# fix https://github.com/gradio-app/gradio/issues/10662
+pydantic==2.10.5
