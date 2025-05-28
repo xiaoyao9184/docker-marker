@@ -1,7 +1,9 @@
 torch==2.5.1
 marker-pdf==1.2.3
-gradio==5.8.0
+gradio[mcp]==5.28.0
 huggingface-hub==0.26.3
 
-# fix https://github.com/gradio-app/gradio/issues/10662
-pydantic==2.10.5
+# gradio[mcp] 5.28.0 depends on pydantic>=2.11
+pydantic==2.11.4
+# fix mcp bug https://github.com/modelcontextprotocol/python-sdk/issues/101
+mcp==1.7.1

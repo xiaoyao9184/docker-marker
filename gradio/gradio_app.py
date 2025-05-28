@@ -86,7 +86,7 @@ if 'model_dict' not in globals():
 with gr.Blocks(title="Marker") as demo:
     gr.Markdown("""
     # Marker Demo
-
+    ![](https://badge.mcpx.dev?type=server 'MCP Server')
     This app will let you try marker, a PDF -> Markdown converter. It works with any languages, and extracts images, tables, equations, etc.
 
     Find the project [here](https://github.com/VikParuchuri/marker).
@@ -165,6 +165,30 @@ with gr.Blocks(title="Marker") as demo:
 
         # Run Marker
         def run_marker_img(filename, page_range, force_ocr, output_format, debug, use_llm, strip_existing_ocr):
+            """
+            Run marker on the given PDF file and return processed results in multiple formats.
+
+            Args:
+                filename (str): Path to the input PDF file.
+                page_range (str): Page range to process (e.g., "0-5").
+                force_ocr (bool, optional): If True (default), force OCR even on text-based PDFs.
+                output_format (str, optional): Output format. One of: "markdown", "html", "json".
+                    Defaults to "markdown".
+                debug (bool, optional): If True, return additional debug images (rendered page and layout).
+                    Defaults to False.
+                use_llm (bool, optional): If True, use LLM-assisted parsing for better semantic output.
+                    Defaults to False.
+                strip_existing_ocr (bool, optional): If True, strip embedded OCR text and re-run OCR.
+                    Defaults to False.
+
+            Returns:
+                tuple:
+                    - markdown_result (str): Markdown output string.
+                    - json_result (str): JSON output string.
+                    - html_result (str): HTML output string.
+                    - page_image (dict or None): Rendered image of PDF page (if debug is True, else None).
+                    - layout_image (dict or None): Visualized layout image (if debug is True, else None).
+            """
             cli_options = {
                 "output_format": output_format,
                 "page_range": page_range,
@@ -228,4 +252,4 @@ with gr.Blocks(title="Marker") as demo:
         )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860)
+    demo.launch(server_name="0.0.0.0", server_port=7860, mcp_server=True, ssr_mode=False)

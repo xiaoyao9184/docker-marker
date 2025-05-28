@@ -1,6 +1,6 @@
 ARG MARKER_VERSION=1.2.3
 ARG STREAMLIT_VERSION=1.41.1
-ARG GRADIO_VERSION=5.8.0
+ARG GRADIO_VERSION=5.28.0
 
 
 FROM alpine/curl:latest AS fonts
@@ -33,8 +33,9 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir \
     marker-pdf==${MARKER_VERSION} \
     streamlit==${STREAMLIT_VERSION} \
-    gradio==${GRADIO_VERSION} \
-    pydantic==2.10.5
+    pydantic==2.11.4 \
+    mcp==1.7.1 \
+    gradio[mcp]==${GRADIO_VERSION}
 
 # COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /fonts/GoNotoCurrent-Regular.ttf
 # COPY --from=fonts /fonts/GoNotoCJKCore.ttf /fonts/GoNotoCJKCore.ttf

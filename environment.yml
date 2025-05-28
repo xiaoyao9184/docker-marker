@@ -15,6 +15,9 @@ dependencies:
 
   - pip:
     - -e ./marker
-    - gradio==5.8.0
+    - gradio[mcp]==5.28.0
+    # gradio[mcp] 5.28.0 depends on pydantic>=2.11
+    - pydantic==2.11.4
     - transformers==4.47.1
-    - pydantic==2.10.5
+    # mcp 1.9.1 still exists bug see this https://github.com/modelcontextprotocol/python-sdk/issues/101
+    - mcp==1.7.1
