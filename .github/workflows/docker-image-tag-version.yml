@@ -13,7 +13,7 @@ on:
       marker_version:
         description: marker version of pypi
         required: true
-        default: 1.2.5
+        default: 1.2.6
       streamlit_version:
         description: streamlit version of pypi
         required: true
@@ -29,7 +29,7 @@ jobs:
     strategy:
       matrix:
         MARKER_VERSION:
-          - ${{ github.event.inputs.marker_version || '1.2.5' }}
+          - ${{ github.event.inputs.marker_version || '1.2.6' }}
         STREAMLIT_VERSION:
           - ${{ github.event.inputs.streamlit_version || '1.41.1' }}
         platform:
