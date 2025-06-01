@@ -47,6 +47,7 @@
                 "&& huggingface-cli download datalab-to/texify --revision 8f1d761762b3e977e9e62cebfca487d489556abc --cache-dir ./cache/huggingface/hub",
                 "&& huggingface-cli download datalab-to/surya_layout --revision 7ac8e390226ee5fa2125dd303d827f79d31d1a1f --cache-dir ./cache/huggingface/hub",
                 "&& huggingface-cli download datalab-to/ocr_error_detection --revision c1cbda3757670fd520553eaa5197656d331de414 --cache-dir ./cache/huggingface/hub",
+                "&& huggingface-cli download datalab-to/inline_math_det0 --revision 75aafc7aa3d494ece6496d28038c91f0d2518a43 --cache-dir ./cache/huggingface/hub",
             ]
         },
         {

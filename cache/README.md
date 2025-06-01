@@ -166,6 +166,28 @@ and `./cache/huggingface/hub/models--datalab-to--texify` like this
 4 directories, 18 files
 ```
 
+and `./cache/huggingface/hub/models--datalab-to--inline_math_det0` like this
+
+
+```
+.
+├── blobs
+│   ├── 15937d4ae6bf71a1bbe36715fa9aeea2d56c3a7c
+│   ├── 1674f2a5253af7f3bcb38eb7dbe5f1cf3ed1dcb3-gzip
+│   ├── 310f06a4fe98b66f90fcecd2776d9699a6641993
+│   ├── a6344aac8c09253b3b630fb776ae94478aa0275b-gzip
+│   └── cf2efdb51bd3f5b383b5dbe035d3a8c6-10
+└── snapshots
+    └── 75aafc7aa3d494ece6496d28038c91f0d2518a43
+        ├── config.json -> ../../blobs/1674f2a5253af7f3bcb38eb7dbe5f1cf3ed1dcb3-gzip
+        ├── .gitattributes -> ../../blobs/a6344aac8c09253b3b630fb776ae94478aa0275b-gzip
+        ├── model.safetensors -> ../../blobs/cf2efdb51bd3f5b383b5dbe035d3a8c6-10
+        ├── preprocessor_config.json -> ../../blobs/15937d4ae6bf71a1bbe36715fa9aeea2d56c3a7c
+        └── README.md -> ../../blobs/310f06a4fe98b66f90fcecd2776d9699a6641993
+
+4 directories, 10 files
+```
+
 It will use
 - `./cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95`
 - `./cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41`
@@ -173,6 +195,7 @@ It will use
 - `./cache/huggingface/hub/models--datalab-to--texify/snapshots/8f1d761762b3e977e9e62cebfca487d489556abc`
 - `./cache/huggingface/hub/models--datalab-to--surya_layout/snapshots/7ac8e390226ee5fa2125dd303d827f79d31d1a1f`
 - `./cache/huggingface/hub/models--datalab-to--ocr_error_detection/snapshots/c1cbda3757670fd520553eaa5197656d331de414`
+- `./cache/huggingface/hub/models--datalab-to--inline_math_det0/snapshots/75aafc7aa3d494ece6496d28038c91f0d2518a43`
 
 For more details, refer to [up@cpu-offline/docker-compose.yml](./../docker/up@cpu-offline/docker-compose.yml).
 
@@ -196,4 +219,5 @@ huggingface-cli download datalab-to/surya_tablerec --repo-type model --revision 
 huggingface-cli download datalab-to/texify --repo-type model --revision 8f1d761762b3e977e9e62cebfca487d489556abc --cache-dir ./cache/huggingface/hub
 huggingface-cli download datalab-to/surya_layout --repo-type model --revision 7ac8e390226ee5fa2125dd303d827f79d31d1a1f --cache-dir ./cache/huggingface/hub
 huggingface-cli download datalab-to/ocr_error_detection --repo-type model --revision c1cbda3757670fd520553eaa5197656d331de414 --cache-dir ./cache/huggingface/hub
+huggingface-cli download datalab-to/inline_math_det0 --repo-type model --revision 75aafc7aa3d494ece6496d28038c91f0d2518a43 --cache-dir ./cache/huggingface/hub
 ```
