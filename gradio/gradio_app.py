@@ -17,6 +17,7 @@ import base64
 import io
 import re
 from typing import Any, Dict
+import json
 
 import pypdfium2
 from PIL import Image
@@ -25,7 +26,20 @@ from marker.converters.pdf import PdfConverter
 from marker.models import create_model_dict
 from marker.config.parser import ConfigParser
 from marker.output import text_from_rendered
+from marker.schema import BlockTypes
 
+COLORS = [
+    "#4e79a7",
+    "#f28e2c",
+    "#e15759",
+    "#76b7b2",
+    "#59a14f",
+    "#edc949",
+    "#af7aa1",
+    "#ff9da7",
+    "#9c755f",
+    "#bab0ab"
+]
 
 def load_models():
     return create_model_dict()
@@ -83,6 +97,8 @@ def markdown_insert_images(markdown, images):
 if 'model_dict' not in globals():
     model_dict = load_models()
 
+img_state = gr.State([])
+
 with gr.Blocks(title="Marker") as demo:
     gr.Markdown("""
     # Marker Demo
@@ -96,12 +112,15 @@ with gr.Blocks(title="Marker") as demo:
         with gr.Column():
             in_file = gr.File(label="PDF file:", file_types=[".pdf"])
             in_num = gr.Slider(label="PDF file page number", minimum=1, maximum=1, value=1, step=1, visible=False)
-            in_img = gr.Image(label="PDF file (preview)", type="pil", sources=None, visible=False)
+            in_img = gr.AnnotatedImage(
+                label="PDF file (preview)", visible=False
+            )
 
             page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"")
             output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html"], value="markdown")
 
             force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
+            show_blocks_ckb = gr.Checkbox(label="Show Blocks", info="Display detected blocks, only when output is JSON", value=False, interactive=False)
             debug_ckb = gr.Checkbox(label="Debug", value=False, info="Show debug information")
             use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
             strip_existing_ocr_ckb = gr.Checkbox(label="Strip existing OCR", value=False, info="Strip existing OCR text from the PDF and re-OCR.")
@@ -113,6 +132,7 @@ with gr.Blocks(title="Marker") as demo:
             debug_img_pdf = gr.Image(label="PDF debug image", visible=False)
             debug_img_layout = gr.Image(label="Layout debug image", visible=False)
 
+
         def show_image(file, num=1):
             if file is None:
                 return [
@@ -123,7 +143,7 @@ with gr.Blocks(title="Marker") as demo:
             img = get_page_image(file, num)
             return [
                 gr.update(visible=True, maximum=count),
-                gr.update(visible=True, value=img),
+                gr.update(visible=True, value=(img, [])),
                 f"0-{num-1}"]
 
         in_file.clear(
@@ -163,8 +183,15 @@ with gr.Blocks(title="Marker") as demo:
             api_name=False
         )
 
+        output_format_dd.change(
+            fn=lambda x: gr.update(interactive=x == "json", value=x == "json"),
+            inputs=[output_format_dd],
+            outputs=[show_blocks_ckb],
+            api_name=False
+        )
+
         # Run Marker
-        def run_marker_img(filename, page_range, force_ocr, output_format, debug, use_llm, strip_existing_ocr):
+        def run_marker_img(filename, page_range, force_ocr, output_format, show_blocks, debug, use_llm, strip_existing_ocr):
             """
             Run marker on the given PDF file and return processed results in multiple formats.
 
@@ -174,6 +201,8 @@ with gr.Blocks(title="Marker") as demo:
                 force_ocr (bool, optional): If True (default), force OCR even on text-based PDFs.
                 output_format (str, optional): Output format. One of: "markdown", "html", "json".
                     Defaults to "markdown".
+                show_blocks (bool, optional): If True, show blocks in preview image with JSON output.
+                    Defaults to False.
                 debug (bool, optional): If True, return additional debug images (rendered page and layout).
                     Defaults to False.
                 use_llm (bool, optional): If True, use LLM-assisted parsing for better semantic output.
@@ -188,6 +217,7 @@ with gr.Blocks(title="Marker") as demo:
                     - html_result (str): HTML output string.
                     - page_image (dict or None): Rendered image of PDF page (if debug is True, else None).
                     - layout_image (dict or None): Visualized layout image (if debug is True, else None).
+                    - preview_image (dict or None): Preview image.
             """
             cli_options = {
                 "output_format": output_format,
@@ -218,6 +248,8 @@ with gr.Blocks(title="Marker") as demo:
                     img = Image.open(layout_image_path)
                     gr_debug_lay = gr.update(visible=True, value=img)
 
+            gr_img = gr.update()
+            
             text, ext, images = text_from_rendered(rendered)
             if output_format == "markdown":
                 text = markdown_insert_images(text, images)
@@ -226,15 +258,45 @@ with gr.Blocks(title="Marker") as demo:
                     gr.update(visible=False),
                     gr.update(visible=False),
                     gr_debug_pdf,
-                    gr_debug_lay
+                    gr_debug_lay,
+                    gr_img
                 ]
             elif output_format == "json":
+                if show_blocks:
+                    doc_json = json.loads(text)
+                    color_map = {}
+                    sections = []
+                    def traverse(block):
+                        if "block_type" in block:
+                            try:
+                                index = list(BlockTypes.__members__).index(block["block_type"])
+                                color = COLORS[index % len(COLORS)]
+                            except (ValueError, IndexError):
+                                color = "#cccccc"  # fallback color
+
+                            label = block["id"].replace("/page/0/", "")
+                            color_map[label] = color
+
+                            bbox = tuple(int(x) for x in block["bbox"])
+                            sections.append((bbox, label))
+                        if "children" in block and isinstance(block["children"], list):
+                            for child in block["children"]:
+                                traverse(child)
+                    traverse(doc_json["children"][0])
+
+                    page_range = config_parser.generate_config_dict()["page_range"]
+                    first_page = page_range[0] if page_range else 0
+                    img = get_page_image(filename, first_page + 1, dpi=72)
+
+                    gr_img = gr.update(value=(img, sections), color_map=color_map)
+
                 return [
                     gr.update(visible=False),
                     gr.update(visible=True, value=text),
                     gr.update(visible=False),
                     gr_debug_pdf,
-                    gr_debug_lay
+                    gr_debug_lay,
+                    gr_img
                 ]
             elif output_format == "html":
                 return [
@@ -242,13 +304,14 @@ with gr.Blocks(title="Marker") as demo:
                     gr.update(visible=False),
                     gr.update(visible=True, value=text),
                     gr_debug_pdf,
-                    gr_debug_lay
+                    gr_debug_lay,
+                    gr_img
                 ]
 
         run_marker_btn.click(
             fn=run_marker_img,
-            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb],
-            outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout]
+            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, show_blocks_ckb, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb],
+            outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout, in_img]
         )
 
 if __name__ == "__main__":
