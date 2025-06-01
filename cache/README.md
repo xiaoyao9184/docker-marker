@@ -137,48 +137,40 @@ and `./cache/huggingface/hub/models--datalab-to--ocr_error_detection` like this
 5 directories, 16 files
 ```
 
-and `./cache/huggingface/hub/models--vikp--texify` like this
+and `./cache/huggingface/hub/models--datalab-to--texify` like this
 
 ```
 .
 ├── blobs
-│   ├── 1b3717b4b654d773f5f79c93cdc994e18dd9d0ee574ad5f9bb3f8c028b79e7b3
-│   ├── 4c48133aabc13f4e5f04badd8214b294a033f85b
-│   ├── 614a553895a796faf884b140cae23a04c10eda6b
-│   ├── 75dad5a63711d242ad16d0e2a11e194fa073fcce
-│   ├── a6344aac8c09253b3b630fb776ae94478aa0275b
-│   ├── a782b2f1cdab4d0bacb2dc0f85d02c4b1e31f0bd
-│   ├── aa6fa677ace60c9b55199d5db22a1dce5198c5ac
-│   ├── c4eed27b2bbeb493d7fbba31feda6af5c7527246a35a96d49eaa1010f9c7e9af
-│   ├── cb0af56b5c3710c1f721270799366b1ac33ea76a
-│   ├── cb9e3dce4c326195d08fc3dd0f7e2eee1da8595c847bf4c1a9c78b7a82d47e2d
-│   ├── ea462a33e5f84b37a56e99a304aec22a89d53670
-│   └── fa625711098f8cd0b355710ff6a95c894b073d62
-├── refs
-│   └── main
+│   ├── 0b7eef4d4e38242a8bfe86b25350ee57a80ddea2-gzip
+│   ├── 1c7a55edfe48b2b661b042bf711fbfce-10
+│   ├── 38d90143fbee233a4f7124e5323b9564de233224-gzip
+│   ├── 5e12d9ba900b47f9ffa293b89737baa294699859
+│   ├── 80cf0856476a03804ea7139a7ded72575f3f38c6-gzip
+│   ├── a6344aac8c09253b3b630fb776ae94478aa0275b-gzip
+│   ├── a782b2f1cdab4d0bacb2dc0f85d02c4b1e31f0bd-gzip
+│   ├── e3cd24912053c61b0331779b976df959-10
+│   └── fbed506ad438e179c130257fabd67cb49c932793-gzip
 └── snapshots
-    └── ce49c1fe10842e78b8be61f9e762b85ac952807d
-        ├── added_tokens.json -> ../../blobs/ea462a33e5f84b37a56e99a304aec22a89d53670
-        ├── config.json -> ../../blobs/614a553895a796faf884b140cae23a04c10eda6b
-        ├── generation_config.json -> ../../blobs/4c48133aabc13f4e5f04badd8214b294a033f85b
-        ├── .gitattributes -> ../../blobs/a6344aac8c09253b3b630fb776ae94478aa0275b
-        ├── model.safetensors -> ../../blobs/c4eed27b2bbeb493d7fbba31feda6af5c7527246a35a96d49eaa1010f9c7e9af
-        ├── preprocessor_config.json -> ../../blobs/aa6fa677ace60c9b55199d5db22a1dce5198c5ac
-        ├── README.md -> ../../blobs/fa625711098f8cd0b355710ff6a95c894b073d62
-        ├── sentencepiece.bpe.model -> ../../blobs/cb9e3dce4c326195d08fc3dd0f7e2eee1da8595c847bf4c1a9c78b7a82d47e2d
-        ├── special_tokens_map.json -> ../../blobs/a782b2f1cdab4d0bacb2dc0f85d02c4b1e31f0bd
-        ├── tokenizer_config.json -> ../../blobs/75dad5a63711d242ad16d0e2a11e194fa073fcce
-        ├── tokenizer.json -> ../../blobs/cb0af56b5c3710c1f721270799366b1ac33ea76a
-        └── training_args.bin -> ../../blobs/1b3717b4b654d773f5f79c93cdc994e18dd9d0ee574ad5f9bb3f8c028b79e7b3
+    └── 8f1d761762b3e977e9e62cebfca487d489556abc
+        ├── config.json -> ../../blobs/80cf0856476a03804ea7139a7ded72575f3f38c6-gzip
+        ├── .gitattributes -> ../../blobs/a6344aac8c09253b3b630fb776ae94478aa0275b-gzip
+        ├── model.safetensors -> ../../blobs/e3cd24912053c61b0331779b976df959-10
+        ├── preprocessor_config.json -> ../../blobs/0b7eef4d4e38242a8bfe86b25350ee57a80ddea2-gzip
+        ├── README.md -> ../../blobs/5e12d9ba900b47f9ffa293b89737baa294699859
+        ├── special_tokens_map.json -> ../../blobs/a782b2f1cdab4d0bacb2dc0f85d02c4b1e31f0bd-gzip
+        ├── tokenizer_config.json -> ../../blobs/38d90143fbee233a4f7124e5323b9564de233224-gzip
+        ├── tokenizer.json -> ../../blobs/fbed506ad438e179c130257fabd67cb49c932793-gzip
+        └── training_args.bin -> ../../blobs/1c7a55edfe48b2b661b042bf711fbfce-10
 
-4 directories, 25 files
+4 directories, 18 files
 ```
 
 It will use
 - `./cache/huggingface/hub/models--vikp--surya_det3/snapshots/467ee9ec33e6e6c5f73e57dbc1415b14032f5b95`
 - `./cache/huggingface/hub/models--vikp--surya_rec2/snapshots/6611509b2c3a32c141703ce19adc899d9d0abf41`
 - `./cache/huggingface/hub/models--datalab-to--surya_tablerec/snapshots/7327dac38c300b2f6cd0501ebc2347dd3ef7fcf2`
-- `./cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d`
+- `./cache/huggingface/hub/models--datalab-to--texify/snapshots/8f1d761762b3e977e9e62cebfca487d489556abc`
 - `./cache/huggingface/hub/models--datalab-to--surya_layout/snapshots/7ac8e390226ee5fa2125dd303d827f79d31d1a1f`
 - `./cache/huggingface/hub/models--datalab-to--ocr_error_detection/snapshots/c1cbda3757670fd520553eaa5197656d331de414`
 
@@ -201,7 +193,7 @@ download model
 huggingface-cli download vikp/surya_det3 --repo-type model --revision 467ee9ec33e6e6c5f73e57dbc1415b14032f5b95 --cache-dir ./cache/huggingface/hub
 huggingface-cli download vikp/surya_rec2 --repo-type 6611509b2c3a32c141703ce19adc899d9d0abf41 --revision main --cache-dir ./cache/huggingface/hub
 huggingface-cli download datalab-to/surya_tablerec --repo-type model --revision 7327dac38c300b2f6cd0501ebc2347dd3ef7fcf2 --cache-dir ./cache/huggingface/hub
-huggingface-cli download vikp/texify --repo-type model --revision ce49c1fe10842e78b8be61f9e762b85ac952807d --cache-dir ./cache/huggingface/hub
+huggingface-cli download datalab-to/texify --repo-type model --revision 8f1d761762b3e977e9e62cebfca487d489556abc --cache-dir ./cache/huggingface/hub
 huggingface-cli download datalab-to/surya_layout --repo-type model --revision 7ac8e390226ee5fa2125dd303d827f79d31d1a1f --cache-dir ./cache/huggingface/hub
 huggingface-cli download datalab-to/ocr_error_detection --repo-type model --revision c1cbda3757670fd520553eaa5197656d331de414 --cache-dir ./cache/huggingface/hub
 ```

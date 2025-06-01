@@ -12,7 +12,7 @@ services:
       - LAYOUT_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--surya_layout/snapshots/7ac8e390226ee5fa2125dd303d827f79d31d1a1f
       - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--ocr_error_detection/snapshots/c1cbda3757670fd520553eaa5197656d331de414
       - TABLE_REC_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--surya_tablerec/snapshots/7327dac38c300b2f6cd0501ebc2347dd3ef7fcf2
-      - TEXIFY_MODEL_NAME=/root/.cache/huggingface/hub/models--vikp--texify/snapshots/ce49c1fe10842e78b8be61f9e762b85ac952807d
+      - TEXIFY_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--texify/snapshots/8f1d761762b3e977e9e62cebfca487d489556abc
       # - FONT_DIR=/fonts # not work
     ports:
       - "8501:8501"
