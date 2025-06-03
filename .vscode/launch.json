@@ -256,6 +256,15 @@
                 "NUM_WORKERS": "15"
             },
             "justMyCode": false
+        },
+        {
+            "name": "debugpy: surya-s3-model-download",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/cache/surya-s3-model-download.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/cache",
+            "justMyCode": false
         }
     ]
 }
