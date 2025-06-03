@@ -13,6 +13,7 @@ services:
       - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--ocr_error_detection/snapshots/c1cbda3757670fd520553eaa5197656d331de414
       - TABLE_REC_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--surya_tablerec/snapshots/7327dac38c300b2f6cd0501ebc2347dd3ef7fcf2
       - TEXIFY_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--texify/snapshots/8f1d761762b3e977e9e62cebfca487d489556abc
+      - INLINE_MATH_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--inline_math_det0/snapshots/75aafc7aa3d494ece6496d28038c91f0d2518a43
       # - FONT_DIR=/fonts # not work
     ports:
       - "8501:8501"
