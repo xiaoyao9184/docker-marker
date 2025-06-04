@@ -265,6 +265,15 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/cache",
             "justMyCode": false
+        },
+        {
+            "name": "debugpy: hf-s3-model-upload",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/cache/hf-s3-model-upload.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/cache",
+            "justMyCode": false
         }
     ]
 }
