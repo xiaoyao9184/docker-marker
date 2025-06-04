@@ -332,6 +332,15 @@ diff -qr ./cache/huggingface/hub/models--datalab-to--inline_math_det0/snapshots/
 | datalab-to/ocr_error_detection | c1cbda3757670fd520553eaa5197656d331de414 | ocr_error_detection | 2025_02_18 |
 | datalab-to/inline_math_det0 | 75aafc7aa3d494ece6496d28038c91f0d2518a43 | inline_math_detection | 2025_02_18 |
 
+| huggingface model name | huggingface model version | surya s3 model name | surya s3 model version |
+| --- | --- | --- | --- |
+| xiaoyao9184/surya_text_detection | 2025_02_18 | text_detection | 2025_02_18 |
+| xiaoyao9184/surya_text_recognition | 2025_02_18 | text_recognition | 2025_02_18 |
+| xiaoyao9184/surya_table_recognition | 2025_02_18 | table_recognition | 2025_02_18 |
+| xiaoyao9184/surya_texify | 2025_02_18 | texify | 2025_02_18 |
+| xiaoyao9184/surya_layout | 2025_02_18 | layout | 2025_02_18 |
+| xiaoyao9184/surya_ocr_error_detection | 2025_02_18 | ocr_error_detection | 2025_02_18 |
+| xiaoyao9184/surya_inline_math_detection | 2025_02_18 | inline_math_detection | 2025_02_18 |
 
 You can specify the model path to Marker via an environment variable,
 which allows you to store the model using any directory structure.
@@ -353,13 +362,13 @@ pip install -U "huggingface_hub[cli]"
 download model
 
 ```bash
-huggingface-cli download vikp/surya_det3 --repo-type model --revision 467ee9ec33e6e6c5f73e57dbc1415b14032f5b95 --cache-dir ./cache/huggingface/hub
-huggingface-cli download vikp/surya_rec2 --repo-type model --revision 6611509b2c3a32c141703ce19adc899d9d0abf41 --cache-dir ./cache/huggingface/hub
-huggingface-cli download datalab-to/surya_tablerec --repo-type model --revision 7327dac38c300b2f6cd0501ebc2347dd3ef7fcf2 --cache-dir ./cache/huggingface/hub
-huggingface-cli download datalab-to/texify --repo-type model --revision 8f1d761762b3e977e9e62cebfca487d489556abc --cache-dir ./cache/huggingface/hub
-huggingface-cli download datalab-to/surya_layout --repo-type model --revision 7ac8e390226ee5fa2125dd303d827f79d31d1a1f --cache-dir ./cache/huggingface/hub
-huggingface-cli download datalab-to/ocr_error_detection --repo-type model --revision c1cbda3757670fd520553eaa5197656d331de414 --cache-dir ./cache/huggingface/hub
-huggingface-cli download datalab-to/inline_math_det0 --repo-type model --revision 75aafc7aa3d494ece6496d28038c91f0d2518a43 --cache-dir ./cache/huggingface/hub
+huggingface-cli download xiaoyao9184/surya_text_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/text_detection/2025_02_18
+huggingface-cli download xiaoyao9184/surya_text_recognition --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/text_recognition/2025_02_18
+huggingface-cli download xiaoyao9184/surya_table_recognition --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/table_recognition/2025_02_18
+huggingface-cli download xiaoyao9184/surya_texify --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/texify/2025_02_18
+huggingface-cli download xiaoyao9184/surya_layout --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/layout/2025_02_18
+huggingface-cli download xiaoyao9184/surya_ocr_error_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/ocr_error_detection/2025_02_18
+huggingface-cli download xiaoyao9184/surya_inline_math_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/inline_math_detection/2025_02_18
 ```
 
 ### use surya-s3-model-download.py
