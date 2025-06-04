@@ -40,7 +40,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
             },
             "justMyCode": false
         },
@@ -81,7 +81,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
             },
             "justMyCode": false
         },
@@ -116,7 +116,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
             },
             "justMyCode": false
         },
@@ -163,7 +163,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
             },
             "justMyCode": false
         },
@@ -206,7 +206,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
             },
             "justMyCode": false
         },
@@ -250,7 +250,7 @@
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
                 "TEXIFY_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/texify/2025_02_18",
-                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_18",
+                "INLINE_MATH_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/inline_math_detection/2025_02_24",
                 "METADATA_FILE": "../pdf_meta.json",
                 "NUM_DEVICES": "4",
                 "NUM_WORKERS": "15"
