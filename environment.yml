@@ -15,6 +15,8 @@ dependencies:
 
   - pip:
     - -e ./marker[full]
+    # surya-ocr 0.14.2 depends on torch==2.7.0
+    - surya-ocr<=0.14.1
     - streamlit-ace==0.1.1
     - gradio[mcp]==5.28.0
     # gradio[mcp] 5.28.0 depends on pydantic>=2.11
