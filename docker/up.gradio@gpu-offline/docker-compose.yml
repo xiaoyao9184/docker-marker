@@ -2,7 +2,7 @@
 
 services:
   marker_gradio:
-    image: xiaoyao9184/marker:1.7.0
+    image: xiaoyao9184/marker:1.7.1
     container_name: marker_pdf_gradio
     working_dir: /workspace/gradio
     command: gradio gradio_app.py
