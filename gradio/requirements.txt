@@ -1,8 +1,9 @@
 torch==2.5.1
 marker-pdf[full]==1.7.1
 gradio[mcp]==5.28.0
-huggingface-hub==0.28.1
 
+# transformers 4.52.4 depends on huggingface-hub>=0.30.0
+huggingface-hub>=0.30.0
 # gradio[mcp] 5.28.0 depends on pydantic>=2.11
 pydantic==2.11.4
 # fix mcp bug https://github.com/modelcontextprotocol/python-sdk/issues/101
