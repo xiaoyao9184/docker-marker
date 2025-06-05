@@ -27,7 +27,6 @@ RUN pip3 install --no-cache-dir \
     -e . \
     streamlit==1.41.1 \
     pydantic==2.11.4 \
-    transformers==4.47.1 \
     mcp==1.7.1 \
     gradio[mcp]==5.28.0
 # The image is too large, with layers exceeding 10GB.
