@@ -43,7 +43,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_app mirror",
+            "name": "debugpy: marker_gui mirror",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
@@ -60,7 +60,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_app offline",
+            "name": "debugpy: marker_gui offline",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
@@ -74,6 +74,53 @@
                 "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
+                "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_recognition/2025_05_16",
+                "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/layout/2025_02_18",
+                "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
+                "TABLE_REC_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/table_recognition/2025_02_18",
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker_extract mirror",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "console": "integratedTerminal",
+            "args": [
+                "run",
+                "${workspaceFolder}/marker/marker/scripts/extraction_app.py",
+                "--",
+                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
+                "--ollama_base_url", "http://localhost:11434",
+                "--ollama_model", "qwen2.5:7b"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_ENDPOINT": "http://localhost:8090"
+            },
+            "justMyCode": false
+        },
+        {
+            "name": "debugpy: marker_extract offline",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "console": "integratedTerminal",
+            "args": [
+                "run",
+                "${workspaceFolder}/marker/marker/scripts/extraction_app.py",
+                "--",
+                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
+                "--ollama_base_url", "http://localhost:11434",
+                "--ollama_model", "qwen2.5:7b"
+            ],
+            "env": {
+                "STREAMLIT_SERVER_PORT": "8501",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
+                "HF_HUB_OFFLINE": "true",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_02_18",
                 "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_recognition/2025_05_16",
                 "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/layout/2025_02_18",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",

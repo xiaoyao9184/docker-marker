@@ -33,6 +33,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir \
     marker-pdf[full]==${MARKER_VERSION} \
     streamlit==${STREAMLIT_VERSION} \
+    streamlit-ace==0.1.1 \
     pydantic==2.11.4 \
     mcp==1.7.1 \
     gradio[mcp]==${GRADIO_VERSION}

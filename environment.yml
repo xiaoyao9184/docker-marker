@@ -15,6 +15,7 @@ dependencies:
 
   - pip:
     - -e ./marker[full]
+    - streamlit-ace==0.1.1
     - gradio[mcp]==5.28.0
     # gradio[mcp] 5.28.0 depends on pydantic>=2.11
     - pydantic==2.11.4
