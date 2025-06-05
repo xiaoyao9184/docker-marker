@@ -1,5 +1,5 @@
 torch==2.7.0
-marker-pdf[full]==1.7.2
+marker-pdf[full]==1.7.3
 gradio[mcp]==5.28.0
 
 # transformers 4.52.4 depends on huggingface-hub>=0.30.0
