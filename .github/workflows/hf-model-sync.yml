@@ -60,7 +60,6 @@ jobs:
       - name: Upload models to Hugging Face
         env:
           DETECTOR_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_text_detection"
-          INLINE_MATH_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_inline_math_detection"
           RECOGNITION_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_text_recognition"
           LAYOUT_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_layout"
           TABLE_REC_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_table_recognition"
