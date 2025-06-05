@@ -1,22 +1,19 @@
 name: marker
 channels:
   - conda-forge
-  - pytorch
   - nvidia
 dependencies:
   - python=3.11
 
   - poetry=1.8.4
 
-  - pytorch==2.5.1
-  - pytorch-cuda==12.4
+  - conda-forge::pytorch==2.7.0
+  - conda-forge::pytorch-gpu==2.7.0
 
   - streamlit==1.41.1
 
   - pip:
     - -e ./marker[full]
-    # surya-ocr 0.14.2 depends on torch==2.7.0
-    - surya-ocr<=0.14.1
     - streamlit-ace==0.1.1
     - gradio[mcp]==5.28.0
     # gradio[mcp] 5.28.0 depends on pydantic>=2.11

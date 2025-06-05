@@ -7,7 +7,7 @@ RUN curl -L -o /fonts/GoNotoCurrent-Regular.ttf https://github.com/satbyy/go-not
     && curl -L -o /fonts/GoNotoCJKCore.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCJKCore.ttf
 
 
-FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
+FROM pytorch/pytorch:2.7.0-cuda12.6-cudnn9-runtime
 
 WORKDIR /app
 
@@ -25,7 +25,6 @@ RUN pip3 install --upgrade pip
 COPY ./marker /app
 RUN pip3 install --no-cache-dir \
     -e . \
-    "surya-ocr<=0.14.1" \
     streamlit==1.41.1 \
     streamlit-ace==0.1.1 \
     pydantic==2.11.4 \
