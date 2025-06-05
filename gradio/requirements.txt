@@ -1,5 +1,5 @@
 torch==2.5.1
-marker-pdf[full]==1.6.2
+marker-pdf[full]==1.7.0
 gradio[mcp]==5.28.0
 huggingface-hub==0.28.1
 
