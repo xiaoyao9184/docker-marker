@@ -334,7 +334,7 @@ diff -qr ./cache/huggingface/hub/models--datalab-to--inline_math_det0/snapshots/
 
 | huggingface model name | huggingface model version | surya s3 model name | surya s3 model version |
 | --- | --- | --- | --- |
-| xiaoyao9184/surya_text_detection | 2025_02_18 | text_detection | 2025_02_18 |
+| xiaoyao9184/surya_text_detection | 2025_02_28 | text_detection | 2025_02_28 |
 | xiaoyao9184/surya_text_recognition | 2025_02_18 | text_recognition | 2025_02_18 |
 | xiaoyao9184/surya_table_recognition | 2025_02_18 | table_recognition | 2025_02_18 |
 | xiaoyao9184/surya_texify | 2025_02_18 | texify | 2025_02_18 |
