@@ -119,11 +119,13 @@ with gr.Blocks(title="Marker") as demo:
             page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"")
             output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html"], value="markdown")
 
+            use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
             force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
             show_blocks_ckb = gr.Checkbox(label="Show Blocks", info="Display detected blocks, only when output is JSON", value=False, interactive=False)
             debug_ckb = gr.Checkbox(label="Debug", value=False, info="Show debug information")
-            use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
             strip_existing_ocr_ckb = gr.Checkbox(label="Strip existing OCR", value=False, info="Strip existing OCR text from the PDF and re-OCR.")
+            format_lines_ckb = gr.Checkbox(label="Format lines", value=False, info="Format lines in the document with OCR model")
+            disable_ocr_math_ckb = gr.Checkbox(label="Disable math", value=False, info="Disable math in OCR output - no inline math")
             run_marker_btn = gr.Button("Run Marker", interactive=False)
         with gr.Column():
             result_md = gr.Markdown(label="Result markdown", visible=False)
@@ -191,7 +193,7 @@ with gr.Blocks(title="Marker") as demo:
         )
 
         # Run Marker
-        def run_marker_img(filename, page_range, force_ocr, output_format, show_blocks, debug, use_llm, strip_existing_ocr):
+        def run_marker_img(filename, page_range, force_ocr, output_format, show_blocks, debug, use_llm, strip_existing_ocr, format_lines, disable_ocr_math):
             """
             Run marker on the given PDF file and return processed results in multiple formats.
 
@@ -209,7 +211,10 @@ with gr.Blocks(title="Marker") as demo:
                     Defaults to False.
                 strip_existing_ocr (bool, optional): If True, strip embedded OCR text and re-run OCR.
                     Defaults to False.
-
+                format_lines (bool, optional): If True, format lines in the document with OCR model.
+                    Defaults to False.
+                disable_ocr_math (bool, optional): If True, disable math in OCR output - no inline math.
+                    Defaults to False.
             Returns:
                 tuple:
                     - markdown_result (str): Markdown output string.
@@ -226,7 +231,9 @@ with gr.Blocks(title="Marker") as demo:
                 "debug": debug,
                 "output_dir": settings.DEBUG_DATA_FOLDER if debug else None,
                 "use_llm": use_llm,
-                "strip_existing_ocr": strip_existing_ocr
+                "strip_existing_ocr": strip_existing_ocr,
+                "format_lines": format_lines,
+                "disable_ocr_math": disable_ocr_math,
             }
             config_parser = ConfigParser(cli_options)
             rendered = convert_pdf(
@@ -310,7 +317,7 @@ with gr.Blocks(title="Marker") as demo:
 
         run_marker_btn.click(
             fn=run_marker_img,
-            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, show_blocks_ckb, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb],
+            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, show_blocks_ckb, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb, format_lines_ckb, disable_ocr_math_ckb],
             outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout, in_img]
         )
 
