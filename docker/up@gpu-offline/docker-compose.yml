@@ -12,7 +12,6 @@ services:
       - LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/layout/2025_02_18
       - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
       - TABLE_REC_MODEL_CHECKPOINT=/root/.cache/datalab/models/table_recognition/2025_02_18
-      - TEXIFY_MODEL_CHECKPOINT=/root/.cache/datalab/models/texify/2025_02_18
       # - FONT_DIR=/fonts # not work
     ports:
       - "8501:8501"

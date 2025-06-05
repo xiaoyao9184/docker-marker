@@ -63,7 +63,6 @@ jobs:
           RECOGNITION_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_text_recognition"
           LAYOUT_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_layout"
           TABLE_REC_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_table_recognition"
-          TEXIFY_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_texify"
           OCR_ERROR_MODEL_REPO_ID: "${{ secrets.HF_USERNAME }}/surya_ocr_error_detection"
         working-directory: ./cache
         run: ${{ steps.poetry-env.outputs.VENV }}/bin/python hf-s3-model-upload.py
