@@ -43,7 +43,10 @@ jobs:
 
       - name: Install marker
         working-directory: ./marker
-        run: poetry install
+        run: |
+          poetry install
+          # just fix marker 1.7.0 skip surya-ocr==0.14.0 new model
+          poetry run pip install --no-deps --force-reinstall surya-ocr==0.14.0
 
       - name: Get Poetry venv path
         id: poetry-env
