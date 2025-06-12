@@ -43,7 +43,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_gui mirror",
+            "name": "debugpy: marker_app mirror",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
@@ -60,7 +60,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_gui offline",
+            "name": "debugpy: marker_app offline",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
@@ -82,7 +82,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_extract mirror",
+            "name": "debugpy: extraction_app mirror",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
@@ -103,7 +103,7 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_extract offline",
+            "name": "debugpy: extraction_app offline",
             "type": "debugpy",
             "request": "launch",
             "module": "streamlit",
