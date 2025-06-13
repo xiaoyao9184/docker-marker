@@ -6,7 +6,7 @@ on:
     branches:
       - 'master'
     paths:
-      - gradio
+      - gradio/**
       - .github/workflows/hf-space-sync.yml
 
 jobs:

@@ -8,7 +8,7 @@ on:
       - 'feature/hf-model-sync'
     paths:
       - marker
-      - cache
+      - cache/**
       - .github/workflows/hf-model-sync.yml
 
 jobs:
