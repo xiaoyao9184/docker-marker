@@ -117,7 +117,7 @@ with gr.Blocks(title="Marker") as demo:
             )
 
             page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"")
-            output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html"], value="markdown")
+            output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html", "chunks"], value="markdown")
 
             use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
             force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
@@ -186,7 +186,7 @@ with gr.Blocks(title="Marker") as demo:
         )
 
         output_format_dd.change(
-            fn=lambda x: gr.update(interactive=x == "json", value=x == "json"),
+            fn=lambda x: gr.update(interactive=x == "json" or x == "chunks", value=x == "json" or x == "chunks",),
             inputs=[output_format_dd],
             outputs=[show_blocks_ckb],
             api_name=False
@@ -201,7 +201,7 @@ with gr.Blocks(title="Marker") as demo:
                 filename (str): Path to the input PDF file.
                 page_range (str): Page range to process (e.g., "0-5").
                 force_ocr (bool, optional): If True (default), force OCR even on text-based PDFs.
-                output_format (str, optional): Output format. One of: "markdown", "html", "json".
+                output_format (str, optional): Output format. One of: "markdown", "html", "json", "chunks".
                     Defaults to "markdown".
                 show_blocks (bool, optional): If True, show blocks in preview image with JSON output.
                     Defaults to False.
@@ -310,6 +310,43 @@ with gr.Blocks(title="Marker") as demo:
                     gr.update(visible=False),
                     gr.update(visible=False),
                     gr.update(visible=True, value=text),
+                    gr_debug_pdf,
+                    gr_debug_lay,
+                    gr_img
+                ]
+            elif output_format == "chunks":
+                if show_blocks:
+                    doc_json = json.loads(text)
+                    color_map = {}
+                    sections = []
+                    def traverse(block):
+                        if "block_type" in block:
+                            try:
+                                index = list(BlockTypes.__members__).index(block["block_type"])
+                                color = COLORS[index % len(COLORS)]
+                            except (ValueError, IndexError):
+                                color = "#cccccc"  # fallback color
+
+                            label = block["id"].replace("/page/0/", "")
+                            color_map[label] = color
+
+                            bbox = tuple(int(x) for x in block["bbox"])
+                            sections.append((bbox, label))
+                        if "blocks" in block and isinstance(block["blocks"], list):
+                            for child in block["blocks"]:
+                                traverse(child)
+                    traverse(doc_json)
+
+                    page_range = config_parser.generate_config_dict()["page_range"]
+                    first_page = page_range[0] if page_range else 0
+                    img = get_page_image(filename, first_page + 1, dpi=72)
+
+                    gr_img = gr.update(value=(img, sections), color_map=color_map)
+
+                return [
+                    gr.update(visible=False),
+                    gr.update(visible=True, value=text),
+                    gr.update(visible=False),
                     gr_debug_pdf,
                     gr_debug_lay,
                     gr_img
