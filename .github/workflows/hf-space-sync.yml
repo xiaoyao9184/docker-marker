@@ -15,13 +15,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Sync to HuggingFace
-        uses: nateraw/huggingface-sync-action@v0.0.5
+        uses: xiaoyao9184/huggingface-sync-action@3d79db537a90f9b057ed1f4ab0ee7119b4c15259
         with:
-          github_repo_id: 'xiaoyao9184/docker-marker'
           huggingface_repo_id: '${{ secrets.HF_USERNAME }}/marker'
           hf_token: ${{ secrets.HF_TOKEN }}
           repo_type: 'space'
           private: false
           space_sdk: 'gradio'
           subdirectory: 'gradio'
+          include_readme: true
+          generate_message: true
