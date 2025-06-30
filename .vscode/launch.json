@@ -93,7 +93,7 @@
                 "--",
                 "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
                 "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5:7b"
+                "--ollama_model", "qwen2.5vl:7b"
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
@@ -114,13 +114,14 @@
                 "--",
                 "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
                 "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5:7b"
+                "--ollama_model", "qwen2.5vl:7b",
+                "--block_correction_prompt", "'show json'"
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
                 "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
-                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_02_18",
+                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "RECOGNITION_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_recognition/2025_05_16",
                 "LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/layout/2025_02_18",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
@@ -172,7 +173,7 @@
                 "--output_dir", "${workspaceFolder}/md_out",
                 "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
                 "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5:7b"
+                "--ollama_model", "qwen2.5vl:7b"
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
@@ -192,7 +193,7 @@
                 "--output_dir", "${workspaceFolder}/md_out",
                 "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
                 "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5:7b"
+                "--ollama_model", "qwen2.5vl:7b"
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
