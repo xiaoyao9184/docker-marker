@@ -2,7 +2,7 @@
 
 services:
   marker_app:
-    image: xiaoyao9184/marker:1.7.5
+    image: xiaoyao9184/marker:1.8.0
     container_name: marker_pdf_app
     environment:
       - TORCH_DEVICE=cuda
