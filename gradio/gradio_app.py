@@ -10,6 +10,8 @@ if "APP_PATH" in os.environ:
         sys.path.append(app_path)
 
 import gradio as gr
+import requests
+from contextlib import suppress
 
 from marker.settings import settings
 
@@ -105,7 +107,9 @@ with gr.Blocks(title="Marker") as demo:
     ![](https://badge.mcpx.dev?type=server 'MCP Server')
     This app will let you try marker, a PDF -> Markdown converter. It works with any languages, and extracts images, tables, equations, etc.
 
-    Find the project [here](https://github.com/VikParuchuri/marker).
+    Find the original project [here](https://github.com/VikParuchuri/marker).
+    Or this project [here](https://github.com/xiaoyao9184/docker-marker).
+    See the [README](./blob/main/README.md) for Spaces's metadata.
     """)
 
     with gr.Row():
@@ -224,6 +228,10 @@ with gr.Blocks(title="Marker") as demo:
                     - layout_image (dict or None): Visualized layout image (if debug is True, else None).
                     - preview_image (dict or None): Preview image.
             """
+            # update counter
+            with suppress(Exception):
+                requests.get("https://counterapi.com/api/xiaoyao9184.github.com/view/docker-marker")
+
             cli_options = {
                 "output_format": output_format,
                 "page_range": page_range,
