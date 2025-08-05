@@ -8,7 +8,7 @@ services:
       - TORCH_DEVICE=cuda
       - HF_HUB_OFFLINE=true
       - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
-      - RECOGNITION_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_recognition/2025_05_16
+      - FOUNDATION_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_recognition/2025_08_04
       - LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/layout/2025_02_18
       - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
       - TABLE_REC_MODEL_CHECKPOINT=/root/.cache/datalab/models/table_recognition/2025_02_18

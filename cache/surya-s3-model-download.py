@@ -6,7 +6,7 @@ from surya.settings import settings
 
 for remote_path in [
     settings.DETECTOR_MODEL_CHECKPOINT,
-    settings.RECOGNITION_MODEL_CHECKPOINT,
+    settings.FOUNDATION_MODEL_CHECKPOINT,
     settings.LAYOUT_MODEL_CHECKPOINT,
     settings.TABLE_REC_MODEL_CHECKPOINT,
     settings.OCR_ERROR_MODEL_CHECKPOINT
