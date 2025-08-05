@@ -4,7 +4,7 @@ A Docker image built through Github Actions with Git commit version tag
 
 [![Docker Image Build/Publish tag with commit](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-commit.yml/badge.svg)](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-commit.yml) [![](https://img.shields.io/docker/v/xiaoyao9184/marker)](https://hub.docker.com/r/xiaoyao9184/marker)
 
-[![Docker Image Build/Publish tag with version](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-version.yml/badge.svg)](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-version.yml) [![](https://img.shields.io/docker/v/xiaoyao9184/marker/1.8.2)](https://hub.docker.com/r/xiaoyao9184/marker)
+[![Docker Image Build/Publish tag with version](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-version.yml/badge.svg)](https://github.com/xiaoyao9184/docker-marker/actions/workflows/docker-image-tag-version.yml) [![](https://img.shields.io/docker/v/xiaoyao9184/marker/1.8.3)](https://hub.docker.com/r/xiaoyao9184/marker)
 
 [![HuggingFace Model Sync](https://github.com/xiaoyao9184/docker-marker/actions/workflows/hf-model-sync.yml/badge.svg)](https://github.com/xiaoyao9184/docker-marker/actions/workflows/hf-model-sync.yml) [![](https://img.shields.io/badge/HuggingFace-model-8b2cff?logo=huggingface)](https://huggingface.co/collections/xiaoyao9184/surya-and-marker-68635abc74f33ef5d5be792d)
 
