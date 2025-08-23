@@ -25,9 +25,9 @@
             "command": "docker build -t xiaoyao9184/marker:master -f ./docker/build@source/dockerfile ."
         },
         {
-            "label": "docker: build 1.8.3",
+            "label": "docker: build 1.8.4",
             "type": "shell",
-            "command": "docker build -t xiaoyao9184/marker:1.8.3 -f ./docker/build@pypi/dockerfile ."
+            "command": "docker build -t xiaoyao9184/marker:1.8.4 -f ./docker/build@pypi/dockerfile ."
         },
         {
             "label": "huggingface-cli: download models",
