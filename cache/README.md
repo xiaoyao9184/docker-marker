@@ -346,6 +346,7 @@ diff -qr ./cache/huggingface/hub/models--datalab-to--inline_math_det0/snapshots/
 | xiaoyao9184/surya_table_recognition | 2025_02_18 | table_recognition | 2025_02_18 |
 | xiaoyao9184/surya_texify | 2025_02_18 | texify | 2025_02_18 |
 | xiaoyao9184/surya_layout | 2025_02_18 | layout | 2025_02_18 |
+| xiaoyao9184/surya_layout | 2025_09_23 | layout | 2025_09_23 |
 | xiaoyao9184/surya_ocr_error_detection | 2025_02_18 | ocr_error_detection | 2025_02_18 |
 | xiaoyao9184/surya_inline_math_detection | 2025_02_24 | inline_math_detection | 2025_02_24 |
 
@@ -372,7 +373,7 @@ download model
 huggingface-cli download xiaoyao9184/surya_text_detection --repo-type model --revision 2025_05_07 --local-dir ./cache/datalab/models/text_detection/2025_05_07
 huggingface-cli download xiaoyao9184/surya_text_recognition --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/text_recognition/2025_09_23
 huggingface-cli download xiaoyao9184/surya_table_recognition --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/table_recognition/2025_02_18
-huggingface-cli download xiaoyao9184/surya_layout --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/layout/2025_02_18
+huggingface-cli download xiaoyao9184/surya_layout --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/layout/2025_09_23
 huggingface-cli download xiaoyao9184/surya_ocr_error_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/ocr_error_detection/2025_02_18
 ```
 
