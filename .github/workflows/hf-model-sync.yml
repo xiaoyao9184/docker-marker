@@ -55,7 +55,7 @@ jobs:
         run: ${{ steps.poetry-env.outputs.VENV }}/bin/python surya-s3-model-download.py
 
       - name: Log in to Hugging Face CLI
-        run: huggingface-cli login --token ${{ secrets.HF_TOKEN }}
+        run: hf login --token ${{ secrets.HF_TOKEN }}
 
       - name: Upload models to Hugging Face
         env:
@@ -69,4 +69,4 @@ jobs:
 
       - name: Log out from Hugging Face CLI
         if: always()
-        run: huggingface-cli logout
+        run: hf logout

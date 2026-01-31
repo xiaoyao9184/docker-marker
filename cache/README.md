@@ -359,7 +359,7 @@ For more details, refer to [up@cpu-offline/docker-compose.yml](./../docker/up@cp
 
 Running in online mode will automatically download the model.
 
-### use huggingface-cli
+### use hf
 
 install cli
 
@@ -370,11 +370,11 @@ pip install -U "huggingface_hub[cli]"
 download model
 
 ```bash
-huggingface-cli download xiaoyao9184/surya_text_detection --repo-type model --revision 2025_05_07 --local-dir ./cache/datalab/models/text_detection/2025_05_07
-huggingface-cli download xiaoyao9184/surya_text_recognition --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/text_recognition/2025_09_23
-huggingface-cli download xiaoyao9184/surya_table_recognition --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/table_recognition/2025_02_18
-huggingface-cli download xiaoyao9184/surya_layout --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/layout/2025_09_23
-huggingface-cli download xiaoyao9184/surya_ocr_error_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/ocr_error_detection/2025_02_18
+hf download xiaoyao9184/surya_text_detection --repo-type model --revision 2025_05_07 --local-dir ./cache/datalab/models/text_detection/2025_05_07
+hf download xiaoyao9184/surya_text_recognition --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/text_recognition/2025_09_23
+hf download xiaoyao9184/surya_table_recognition --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/table_recognition/2025_02_18
+hf download xiaoyao9184/surya_layout --repo-type model --revision 2025_09_23 --local-dir ./cache/datalab/models/layout/2025_09_23
+hf download xiaoyao9184/surya_ocr_error_detection --repo-type model --revision 2025_02_18 --local-dir ./cache/datalab/models/ocr_error_detection/2025_02_18
 ```
 
 ### use surya-s3-model-download.py
