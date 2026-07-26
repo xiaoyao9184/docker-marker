@@ -1,2 +1,3 @@
 pdf_in/
 md_out/
+**/__pycache__
