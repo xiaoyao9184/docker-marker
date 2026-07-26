@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'feature/hf-space-sync'
     paths:
       - gradio/**
       - .github/workflows/hf-space-sync.yml
@@ -13,13 +14,16 @@ jobs:
   push-hf-space:
     name: Push source code to HuggingFace
     runs-on: ubuntu-latest
+    env:
+      # Fix BUG https://github.com/huggingface/huggingface_hub/issues/4571
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Sync to HuggingFace
-        uses: xiaoyao9184/huggingface-sync-action@3d79db537a90f9b057ed1f4ab0ee7119b4c15259
+        uses: xiaoyao9184/huggingface-sync-action@5d6858f36500be81bd63443f6138b3d5a14d46ea
         with:
           huggingface_repo_id: '${{ secrets.HF_USERNAME }}/marker'
           hf_token: ${{ secrets.HF_TOKEN }}
