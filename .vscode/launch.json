@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debugpy: gradio_run mirror",
+            "name": "debugpy: gradio_app server",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/gradio/gradio_run.py",
+            "program": "${workspaceFolder}/gradio/gradio_bin.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": [
@@ -14,34 +14,20 @@
             "env": {
                 "APP_PATH": "${workspaceFolder}/marker",
                 "PYDEVD_DISABLE_FILE_VALIDATION": "1",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: gradio_run offline",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/gradio/gradio_run.py",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "args": [
-                "${workspaceFolder}/gradio/gradio_app.py"
-            ],
-            "env": {
-                "APP_PATH": "${workspaceFolder}/marker",
-                "PYDEVD_DISABLE_FILE_VALIDATION": "1",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
+                "FAST_LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d",
+                "FAST_ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d/order",
                 "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
                 // NOT work Still downloading the main version from HF, so switch use model path
                 // "VLLM_EXTRA_ARGS": "--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd",
                 "SURYA_MODEL_CHECKPOINT": "/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2/snapshots/3b3d4cdf88d6928b0acdc75181b13206ea67c4a3",
                 "SURYA_GGUF_LOCAL_MODEL_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf",
                 "SURYA_GGUF_LOCAL_MMPROJ_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf",
+                "SURYA_INFERENCE_BACKEND": "${input:surya-inference-backend}",
+                "LLAMA_CPP_BINARY": "${input:llama-cpp-binary}"
             },
             "justMyCode": false
         },
@@ -169,6 +155,25 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/cache",
             "justMyCode": false
+        }
+    ],
+    "inputs": [
+        {
+            "id": "surya-inference-backend",
+            "type": "pickString",
+            "description": "Select the SURYA_INFERENCE_BACKEND(empty is auto)",
+            "default": "",
+            "options": [
+                "",
+                "vllm",
+                "llamacpp",
+            ]
+        },
+        {
+            "id": "llama-cpp-binary",
+            "type": "promptString",
+            "description": "Enter the LLAMA_CPP_BINARY path",
+            "default": "/usr/local/bin/llama-server"
         }
     ]
 }

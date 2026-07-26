@@ -29,6 +29,9 @@ from marker.models import create_model_dict
 from marker.config.parser import ConfigParser
 from marker.output import text_from_rendered
 from marker.schema import BlockTypes
+from telemetry_counter import patch_button_click
+
+patch_button_click()
 
 COLORS = [
     "#4e79a7",
@@ -122,13 +125,15 @@ with gr.Blocks(title="Marker") as demo:
 
             page_range_txt = gr.Textbox(label="Page range to parse, comma separated like 0,5-10,20", value=f"")
             output_format_dd = gr.Dropdown(label="Output format", choices=["markdown", "json", "html", "chunks"], value="markdown")
+            mode_dd = gr.Dropdown(label="Mode", choices=["auto", "balanced", "fast"], value="auto", info="'auto' picks by device: balanced on GPU, fast on CPU/MPS. 'balanced' uses the VLM layout model + full-page OCR (best on GPU).'fast' uses lightweight CPU detectors and only OCRs garbled/empty content.")
 
             use_llm_ckb = gr.Checkbox(label="Use LLM", value=False, info="Use LLM for higher quality processing")
-            force_ocr_ckb = gr.Checkbox(label="Force OCR", value=True, info="Force OCR on all pages")
+            force_ocr_ckb = gr.Checkbox(label="Force OCR", value=False, info="Force OCR on all pages")
+            disable_ocr_ckb = gr.Checkbox(label="Disable OCR", value=False, info="Never call the VLM - pure text-layer extraction (equations and scanned pages are skipped).")
             show_blocks_ckb = gr.Checkbox(label="Show Blocks", info="Display detected blocks, only when output is JSON", value=False, interactive=False)
             debug_ckb = gr.Checkbox(label="Debug", value=False, info="Show debug information")
             strip_existing_ocr_ckb = gr.Checkbox(label="Strip existing OCR", value=False, info="Strip existing OCR text from the PDF and re-OCR.")
-            disable_ocr_math_ckb = gr.Checkbox(label="Disable math", value=False, info="Disable math in OCR output - no inline math")
+            keep_headers_footers_ckb = gr.Checkbox(label="Show page headers/footers", value=False, info="Keep running page headers and footers in the output instead of stripping them.")
             run_marker_btn = gr.Button("Run Marker", interactive=False)
         with gr.Column():
             result_md = gr.Markdown(label="Result markdown", visible=False)
@@ -196,7 +201,7 @@ with gr.Blocks(title="Marker") as demo:
         )
 
         # Run Marker
-        def run_marker_img(filename, page_range, force_ocr, output_format, show_blocks, debug, use_llm, strip_existing_ocr, disable_ocr_math):
+        def run_marker_img(filename, page_range, force_ocr, disable_ocr, output_format, show_blocks, debug, use_llm, strip_existing_ocr, keep_headers_footers, mode):
             """
             Run marker on the given PDF file and return processed results in multiple formats.
 
@@ -204,6 +209,8 @@ with gr.Blocks(title="Marker") as demo:
                 filename (str): Path to the input PDF file.
                 page_range (str): Page range to process (e.g., "0-5").
                 force_ocr (bool, optional): If True (default), force OCR even on text-based PDFs.
+                disable_ocr (bool, optional): Never call the VLM - pure text-layer extraction (equations and scanned pages are skipped).
+                    Defaults to False.
                 output_format (str, optional): Output format. One of: "markdown", "html", "json", "chunks".
                     Defaults to "markdown".
                 show_blocks (bool, optional): If True, show blocks in preview image with JSON output.
@@ -214,8 +221,10 @@ with gr.Blocks(title="Marker") as demo:
                     Defaults to False.
                 strip_existing_ocr (bool, optional): If True, strip embedded OCR text and re-run OCR.
                     Defaults to False.
-                disable_ocr_math (bool, optional): If True, disable math in OCR output - no inline math.
+                keep_headers_footers (bool, optional): Keep running page headers and footers in the output instead of stripping them.
                     Defaults to False.
+                mode: (str, optional): 'auto' picks by device: balanced on GPU, fast on CPU/MPS. 'balanced' uses the VLM layout model + full-page OCR (best on GPU).'fast' uses lightweight CPU detectors and only OCRs garbled/empty content.
+                    Defaults to "auto".
             Returns:
                 tuple:
                     - markdown_result (str): Markdown output string.
@@ -233,11 +242,12 @@ with gr.Blocks(title="Marker") as demo:
                 "output_format": output_format,
                 "page_range": page_range,
                 "force_ocr": force_ocr,
+                "disable_ocr": disable_ocr,
                 "debug": debug,
                 "output_dir": settings.DEBUG_DATA_FOLDER if debug else None,
                 "use_llm": use_llm,
                 "strip_existing_ocr": strip_existing_ocr,
-                "disable_ocr_math": disable_ocr_math,
+                "mode": None if mode == "auto" else mode,
             }
             config_parser = ConfigParser(cli_options)
             rendered = convert_pdf(
@@ -260,7 +270,7 @@ with gr.Blocks(title="Marker") as demo:
                     gr_debug_lay = gr.update(visible=True, value=img)
 
             gr_img = gr.update()
-            
+
             text, ext, images = text_from_rendered(rendered)
             if output_format == "markdown":
                 text = markdown_insert_images(text, images)
@@ -358,7 +368,7 @@ with gr.Blocks(title="Marker") as demo:
 
         run_marker_btn.click(
             fn=run_marker_img,
-            inputs=[in_file, page_range_txt, force_ocr_ckb, output_format_dd, show_blocks_ckb, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb, disable_ocr_math_ckb],
+            inputs=[in_file, page_range_txt, force_ocr_ckb, disable_ocr_ckb, output_format_dd, show_blocks_ckb, debug_ckb, use_llm_ckb, strip_existing_ocr_ckb, keep_headers_footers_ckb, mode_dd],
             outputs=[result_md, result_json, result_html, debug_img_pdf, debug_img_layout, in_img]
         )
 
