@@ -1,4 +1,4 @@
-torch==2.7.0
+torch==2.13.0
 marker-pdf[full]==2.0.0
 gradio[mcp]==5.28.0
 

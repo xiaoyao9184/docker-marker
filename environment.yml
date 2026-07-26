@@ -7,8 +7,8 @@ dependencies:
 
   - poetry=1.8.4
 
-  - conda-forge::pytorch==2.7.0
-  - conda-forge::pytorch-gpu==2.7.0
+  - conda-forge::pytorch==2.13.0
+  - conda-forge::pytorch-gpu==2.13.0
 
   - streamlit==1.41.1
 

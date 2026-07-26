@@ -7,7 +7,7 @@ RUN curl -L -o /fonts/GoNotoCurrent-Regular.ttf https://github.com/satbyy/go-not
     && curl -L -o /fonts/GoNotoCJKCore.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCJKCore.ttf
 
 
-FROM pytorch/pytorch:2.7.0-cuda12.6-cudnn9-runtime
+FROM pytorch/pytorch:2.13.0-cuda12.6-cudnn9-runtime
 
 WORKDIR /app
 
