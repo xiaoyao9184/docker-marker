@@ -10,10 +10,13 @@ services:
       - TORCH_DEVICE=cpu
       - HF_HUB_OFFLINE=true
       - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
-      - FOUNDATION_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_recognition/2025_09_23
-      - LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/layout/2025_09_23
       - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
-      - TABLE_REC_MODEL_CHECKPOINT=/root/.cache/datalab/models/table_recognition/2025_02_18
+      - DOCKER_HF_CACHE_PATH=/root/.cache/huggingface
+      # NOT work Still downloading the main version from HF, so switch use model path
+      # - VLLM_EXTRA_ARGS=--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd
+      - SURYA_MODEL_CHECKPOINT=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2/snapshots/3b3d4cdf88d6928b0acdc75181b13206ea67c4a3
+      - SURYA_GGUF_LOCAL_MODEL_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf
+      - SURYA_GGUF_LOCAL_MMPROJ_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf
     ports:
       - "7860:7860"
     volumes:

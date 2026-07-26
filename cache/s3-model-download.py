@@ -6,9 +6,6 @@ from surya.settings import settings
 
 for remote_path in [
     settings.DETECTOR_MODEL_CHECKPOINT,
-    settings.FOUNDATION_MODEL_CHECKPOINT,
-    settings.LAYOUT_MODEL_CHECKPOINT,
-    settings.TABLE_REC_MODEL_CHECKPOINT,
     settings.OCR_ERROR_MODEL_CHECKPOINT
 ]:
     pretrained_model_name_or_path = remote_path.replace("s3://", "")
