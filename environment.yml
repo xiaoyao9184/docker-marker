@@ -10,13 +10,13 @@ dependencies:
   - conda-forge::pytorch==2.13.0
   - conda-forge::pytorch-gpu==2.13.0
 
-  - streamlit==1.41.1
-
   - pip:
     - -e ./marker[full]
+    # for streamlit
+    - streamlit==1.59.2
     - streamlit-ace==0.1.1
+    # for gradio
     - gradio[mcp]==5.28.0
-    # gradio[mcp] 5.28.0 depends on pydantic>=2.11
-    - pydantic==2.11.4
-    # mcp 1.10.1 still exists bug see this https://github.com/modelcontextprotocol/python-sdk/issues/101
-    - mcp==1.7.1
+    # for run_ocr_errors feat
+    # override old version for conflict
+    # - pdftext==0.7.1

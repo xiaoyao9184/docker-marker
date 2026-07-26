@@ -1,0 +1,8 @@
+# lock for fix mcp 1.10.1 still exists bug see this https://github.com/modelcontextprotocol/python-sdk/issues/101
+mcp==1.7.1
+# lock for depends gradio[mcp] 5.28.0
+pydantic==2.11.4
+# lock for fix https://github.com/datalab-to/surya/issues/536
+pypdfium2==4.30.0
+# lock for conflict with pypdfium2 4.30.0
+pdftext==0.6.3

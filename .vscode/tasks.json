@@ -88,7 +88,8 @@
             "label": "conda: create env",
             "type": "shell",
             "command": [
-                "conda env create -f ./environment.yml"
+                "conda env create -f ./environment.yml",
+                "&& conda run --no-capture-output -n marker pip install -r requirements.override.txt",
             ]
         }
     ]

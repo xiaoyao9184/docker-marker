@@ -6,7 +6,7 @@ colorTo: indigo
 sdk: gradio
 sdk_version: 5.28.0
 python_version: '3.11'
-app_file: gradio_app.py
+app_file: space.py
 pinned: false
 license: apache-2.0
 short_description: Gradio implementation of the Marker pdf to markdown

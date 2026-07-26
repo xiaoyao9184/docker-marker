@@ -1,5 +1,6 @@
 ARG MARKER_VERSION=2.0.0
-ARG STREAMLIT_VERSION=1.41.1
+ARG STREAMLIT_VERSION=1.59.2
+ARG STREAMLIT_ACE_VERSION=0.1.1
 ARG GRADIO_VERSION=5.28.0
 
 
@@ -15,6 +16,7 @@ FROM pytorch/pytorch:2.13.0-cuda12.6-cudnn9-runtime
 
 ARG MARKER_VERSION
 ARG STREAMLIT_VERSION
+ARG STREAMLIT_ACE_VERSION
 ARG GRADIO_VERSION
 
 WORKDIR /app
@@ -31,17 +33,23 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install --upgrade pip
 
 RUN pip3 install --no-cache-dir \
-    marker-pdf[full]==${MARKER_VERSION} \
+    marker-pdf[full]==${MARKER_VERSION}
+
+# Lock streamlit version
+RUN pip3 install --no-cache-dir \
     streamlit==${STREAMLIT_VERSION} \
-    streamlit-ace==0.1.1 \
-    pydantic==2.11.4 \
-    mcp==1.7.1 \
+    streamlit-ace==${STREAMLIT_ACE_VERSION}
+
+# Lock gradio version
+RUN pip3 install --no-cache-dir \
     gradio[mcp]==${GRADIO_VERSION}
 
-# COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /fonts/GoNotoCurrent-Regular.ttf
-# COPY --from=fonts /fonts/GoNotoCJKCore.ttf /fonts/GoNotoCJKCore.ttf
-COPY --from=fonts /fonts/GoNotoCurrent-Regular.ttf /opt/conda/lib/python3.11/site-packages/static/fonts/GoNotoCurrent-Regular.ttf
-COPY --from=fonts /fonts/GoNotoCJKCore.ttf /opt/conda/lib/python3.11/site-packages/static/fonts/GoNotoCJKCore.ttf
+# Override incorrect version
+RUN pip3 install --no-cache-dir \
+    pypdfium2==4.30.0 \
+    pdftext==0.6.3 \
+    mcp==1.7.1 \
+    pydantic==2.11.4
 
 COPY ./gradio /workspace/gradio
 
