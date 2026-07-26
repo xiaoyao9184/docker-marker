@@ -45,39 +45,23 @@
             },
             "justMyCode": false
         },
+
         {
-            "name": "debugpy: marker_app mirror",
+            "name": "debugpy: streamlit app cli",
             "type": "debugpy",
             "request": "launch",
-            "module": "streamlit",
+            "code": "from marker.scripts.run_streamlit_app import streamlit_app_cli; streamlit_app_cli()",
             "console": "integratedTerminal",
             "args": [
-                "run",
-                "${workspaceFolder}/marker/marker/scripts/streamlit_app.py"
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: marker_app offline",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "streamlit",
-            "console": "integratedTerminal",
-            "args": [
-                "run",
-                "${workspaceFolder}/marker/marker/scripts/streamlit_app.py"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
+                "FAST_LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d",
+                "FAST_ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d/order",
                 "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
                 // NOT work Still downloading the main version from HF, so switch use model path
                 // "VLLM_EXTRA_ARGS": "--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd",
@@ -88,47 +72,23 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: extraction_app mirror",
+            "name": "debugpy: server cli",
             "type": "debugpy",
             "request": "launch",
-            "module": "streamlit",
+            "code": "from marker.scripts.server import server_cli; server_cli()",
             "console": "integratedTerminal",
             "args": [
-                "run",
-                "${workspaceFolder}/marker/marker/scripts/extraction_app.py",
-                "--",
-                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
-                "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5vl:7b"
+                "--host", "127.0.0.1",
+                "--port", "8001",
             ],
             "env": {
                 "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: extraction_app offline",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "streamlit",
-            "console": "integratedTerminal",
-            "args": [
-                "run",
-                "${workspaceFolder}/marker/marker/scripts/extraction_app.py",
-                "--",
-                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
-                "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5vl:7b",
-                "--block_correction_prompt", "'show json'"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
+                "FAST_LAYOUT_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d",
+                "FAST_ORDER_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/surya_layout2/0aee81d/order",
                 "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
                 // NOT work Still downloading the main version from HF, so switch use model path
                 // "VLLM_EXTRA_ARGS": "--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd",
@@ -139,78 +99,21 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: marker_server mirror",
+            "name": "debugpy: convert single cli",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/marker/marker_server.py",
-            "console": "integratedTerminal",
-            "args": ["--port", "8001"],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: marker_server offline",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/marker_server.py",
-            "console": "integratedTerminal",
-            "args": ["--port", "8001"],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_HUB_OFFLINE": "true",
-                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
-                "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
-                "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
-                // NOT work Still downloading the main version from HF, so switch use model path
-                // "VLLM_EXTRA_ARGS": "--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd",
-                "SURYA_MODEL_CHECKPOINT": "/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2/snapshots/3b3d4cdf88d6928b0acdc75181b13206ea67c4a3",
-                "SURYA_GGUF_LOCAL_MODEL_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf",
-                "SURYA_GGUF_LOCAL_MMPROJ_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf",
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: convert_single mirror",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/convert_single.py",
+            "code": "from marker.scripts.convert_single import convert_single_cli; convert_single_cli()",
             "console": "integratedTerminal",
             "args": [
                 "${workspaceFolder}/pdf_in/2111.12229.pdf",
-                "--output_dir", "${workspaceFolder}/md_out",
-                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
-                "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5vl:7b"
+                // "--output_dir", "${workspaceFolder}/md_out",
+                // "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
+                // "--ollama_base_url", "http://localhost:11434",
+                // "--ollama_model", "qwen2.5vl:7b"
             ],
             "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: convert_single offline",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/convert_single.py",
-            "console": "integratedTerminal",
-            "args": [
-                "${workspaceFolder}/pdf_in/2111.12229.pdf",
-                "--output_dir", "${workspaceFolder}/md_out",
-                "--use_llm", "--llm_service", "marker.services.ollama.OllamaService",
-                "--ollama_base_url", "http://localhost:11434",
-                "--ollama_model", "qwen2.5vl:7b"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
@@ -223,38 +126,20 @@
             "justMyCode": false
         },
         {
-            "name": "debugpy: convert mirror",
+            "name": "debugpy: convert cli",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/marker/convert.py",
+            "code": "from marker.scripts.convert import convert_cli; convert_cli()",
             "console": "integratedTerminal",
             "args": [
                 "${workspaceFolder}/pdf_in",
                 "--output_dir", "${workspaceFolder}/md_out",
-                "--workers", "4", "--max_files", "10"
+                "--workers", "4",
+                "--max_files", "10",
             ],
             "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: convert offline",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/convert.py",
-            "console": "integratedTerminal",
-            "args": [
-                "${workspaceFolder}/pdf_in",
-                "--output_dir", "${workspaceFolder}/md_out",
-                "--workers", "4", "--max_files", "10"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "HF_HUB_OFFLINE": "true",
+                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
                 "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
                 "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
                 "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
@@ -263,54 +148,6 @@
                 "SURYA_MODEL_CHECKPOINT": "/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2/snapshots/3b3d4cdf88d6928b0acdc75181b13206ea67c4a3",
                 "SURYA_GGUF_LOCAL_MODEL_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf",
                 "SURYA_GGUF_LOCAL_MMPROJ_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf",
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: chunk_convert mirror",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/chunk_convert.py",
-            "console": "integratedTerminal",
-            "args": [
-                "${workspaceFolder}/pdf_in",
-                "${workspaceFolder}/md_out"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_ENDPOINT": "http://localhost:8090",
-                "METADATA_FILE": "../pdf_meta.json",
-                "NUM_DEVICES": "4",
-                "NUM_WORKERS": "15"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "debugpy: chunk_convert offline",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/marker/chunk_convert.py",
-            "console": "integratedTerminal",
-            "args": [
-                "${workspaceFolder}/pdf_in",
-                "${workspaceFolder}/md_out"
-            ],
-            "env": {
-                "STREAMLIT_SERVER_PORT": "8501",
-                "XDG_CACHE_HOME": "${workspaceFolder}/cache",
-                "HF_HUB_OFFLINE": "true",
-                "DETECTOR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/text_detection/2025_05_07",
-                "OCR_ERROR_MODEL_CHECKPOINT": "${workspaceFolder}/cache/datalab/models/ocr_error_detection/2025_02_18",
-                "DOCKER_HF_CACHE_PATH": "${workspaceFolder}/cache/huggingface",
-                // NOT work Still downloading the main version from HF, so switch use model path
-                // "VLLM_EXTRA_ARGS": "--revision 3b3d4cd --tokenizer-revision 3b3d4cd --code-revision 3b3d4cd",
-                "SURYA_MODEL_CHECKPOINT": "/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2/snapshots/3b3d4cdf88d6928b0acdc75181b13206ea67c4a3",
-                "SURYA_GGUF_LOCAL_MODEL_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf",
-                "SURYA_GGUF_LOCAL_MMPROJ_PATH": "${workspaceFolder}/cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf",
-                "METADATA_FILE": "../pdf_meta.json",
-                "NUM_DEVICES": "4",
-                "NUM_WORKERS": "15"
             },
             "justMyCode": false
         },
