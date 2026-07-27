@@ -5,18 +5,12 @@ on:
   push:
     branches:
       - 'master'
+      - 'feature/docker-image-build'
     paths:
       - marker
+      - gradio/**
       - docker/build@source/dockerfile
       - .github/workflows/docker-image-tag-commit.yml
-  workflow_dispatch:
-    inputs:
-      commit_id:
-        description: marker commit id(like 'master' 'da6a2f5c')
-        required: true
-        default: master
-  schedule:
-    - cron: '0 0 1 */3 *'
 
 jobs:
   build-and-push-docker-image:
@@ -27,8 +21,6 @@ jobs:
 
     strategy:
       matrix:
-        BRANCH_CHECKOUT:
-          - ${{ github.event.inputs.commit_id || 'master' }}
         platforms:
           - linux/amd64
 
@@ -63,13 +55,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout commit
-        run: |
-          cd marker
-          git checkout ${{ matrix.BRANCH_CHECKOUT }}
-
       - name: Set env git short head
-        working-directory: ./marker
         run: echo "COMMIT_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Meta data image
@@ -80,7 +66,6 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/marker
             ghcr.io/${{ github.repository_owner }}/marker
           tags: |
-            type=raw,value=${{ matrix.BRANCH_CHECKOUT }}
             type=raw,value=${{ env.COMMIT_SHORT }}
           flavor: |
             latest=false

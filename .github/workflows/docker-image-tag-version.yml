@@ -5,20 +5,12 @@ on:
   push:
     branches:
       - 'master'
+      - 'feature/docker-image-build'
     paths:
+      - marker
       - gradio/**
       - docker/build@pypi/dockerfile
       - .github/workflows/docker-image-tag-version.yml
-  workflow_dispatch:
-    inputs:
-      marker_version:
-        description: marker version of pypi
-        required: true
-        default: 2.0.0
-      streamlit_version:
-        description: streamlit version of pypi
-        required: true
-        default: 1.59.2
 
 jobs:
   build-and-push-docker-image:
@@ -29,10 +21,6 @@ jobs:
 
     strategy:
       matrix:
-        MARKER_VERSION:
-          - ${{ github.event.inputs.marker_version || '2.0.0' }}
-        STREAMLIT_VERSION:
-          - ${{ github.event.inputs.streamlit_version || '1.59.2' }}
         platform:
           - linux/amd64
 
@@ -46,7 +34,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: false
+          submodules: true
+
+      - name: Set env Marker git tag
+        run: |
+          git -C marker fetch --tags --force origin
+          GIT_TAG="$(git -C marker tag --points-at HEAD | sort -V | tail -n 1)"
+          if [ -z "$GIT_TAG" ]; then
+            echo "No git tag found for current Marker submodule commit." >&2
+            exit 1
+          fi
+          echo "GIT_TAG=${GIT_TAG#v}" >> "$GITHUB_ENV"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -75,7 +73,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/marker
             ghcr.io/${{ github.repository_owner }}/marker
           tags: |
-            type=raw,value=${{ matrix.MARKER_VERSION }}
+            type=raw,value=${{ env.GIT_TAG }}
             type=raw,value=latest
           flavor: |
             latest=false
@@ -86,9 +84,6 @@ jobs:
         with:
           context: .
           file: ./docker/build@pypi/dockerfile
-          build-args: |
-            MARKER_VERSION=${{ matrix.MARKER_VERSION }}
-            STREAMLIT_VERSION=${{ matrix.STREAMLIT_VERSION }}
           platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
