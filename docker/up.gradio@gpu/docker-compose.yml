@@ -1,0 +1,161 @@
+
+
+services:
+  surya_llm:
+    profiles:
+      - vllm
+    image: vllm/vllm-openai:v0.20.1
+    container_name: surya_ocr_llm
+    command:
+      - "--model"
+      - "datalab-to/surya-ocr-2"
+      - "--revision"
+      - "3b3d4cd"
+      - "--no-enforce-eager"
+      - "--max-num-seqs"
+      - "24"
+      - "--dtype"
+      - "bfloat16"
+      - "--max-model-len"
+      - "18000"
+      - "--max-num-batched-tokens"
+      - "8192"
+      - "--gpu-memory-utilization"
+      - "0.85"
+      - "--enable-prefix-caching"
+      - "--mm-processor-kwargs"
+      - '{"min_pixels": 3136, "max_pixels": 6291456}'
+      - "--served-model-name"
+      - "datalab-to/surya-ocr-2"
+      - "--speculative-config"
+      - '{"method": "mtp", "num_speculative_tokens": 2}'
+    environment:
+      - HF_HUB_OFFLINE=true
+    ports:
+      - 8000
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+
+  surya_text_detection:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_text_detection
+    command:
+      - "python"
+      - "-m"
+      - "surya.detection.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8001"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/text_detection/2025_05_07"
+    environment:
+      - TORCH_DEVICE=cuda
+      - HF_HUB_OFFLINE=true
+      - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
+    ports:
+      - 8001
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+
+  surya_fast_layout:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_fast_layout
+    command:
+      - "python"
+      - "-m"
+      - "surya.fast_layout.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8002"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/surya_layout2/0aee81d"
+    environment:
+      - TORCH_DEVICE=cuda
+      - HF_HUB_OFFLINE=true
+      - FAST_LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d
+      - FAST_ORDER_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d/order
+    ports:
+      - 8002
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+
+  surya_ocr_error:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_ocr_error
+    command:
+      - "python"
+      - "-m"
+      - "surya.ocr_error.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8003"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/ocr_error_detection/2025_02_18"
+    environment:
+      - TORCH_DEVICE=cuda
+      - HF_HUB_OFFLINE=true
+      - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
+    ports:
+      - 8003
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+
+  marker_gradio:
+    image: xiaoyao9184/marker:2.0.0
+    container_name: marker_pdf_gradio
+    working_dir: /workspace/gradio
+    command: gradio gradio_app.py
+    environment:
+      - TORCH_DEVICE=cuda
+      - HF_HUB_OFFLINE=true
+      - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
+      - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
+      - FAST_LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d
+      - FAST_ORDER_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d/order
+      - SURYA_GGUF_LOCAL_MODEL_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf
+      - SURYA_GGUF_LOCAL_MMPROJ_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf
+      - SURYA_INFERENCE_BACKEND=${SURYA_INFERENCE_BACKEND:-}
+      - SURYA_INFERENCE_URL=${SURYA_INFERENCE_URL:-}
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./../../cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]

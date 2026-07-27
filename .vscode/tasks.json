@@ -4,20 +4,31 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "docker: compose up.gradio@gpu-offline",
+            "label": "docker: compose up vllm + server",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/docker/up.gradio@gpu-offline/"
+                "cwd": "${workspaceFolder}/docker/${input:docker-up-path}/",
+                "env": {
+                    "SURYA_INFERENCE_BACKEND": "vllm",
+                    "SURYA_INFERENCE_URL": "http://surya_ocr_llm:8000/v1",
+                    "DETECTOR_SERVER_URL": "http://surya_text_detection:8001",
+                    "FAST_LAYOUT_SERVER_URL": "http://surya_fast_layout:8002",
+                    "OCR_ERROR_SERVER_URL": "http://surya_ocr_error:8003",
+                    "COMPOSE_PROFILES": "vllm,server"
+                }
             },
-            "command": "docker compose -p marker up"
+            "command": "docker compose -p marker up",
         },
         {
-            "label": "docker: compose up@cpu-online",
+            "label": "docker: compose up llama",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/docker/up@cpu-online/"
+                "cwd": "${workspaceFolder}/docker/${input:docker-up-path}/",
+                "env": {
+                    "SURYA_INFERENCE_BACKEND": "llamacpp"
+                }
             },
-            "command": "docker compose -p marker up"
+            "command": "docker compose -p marker up",
         },
         {
             "label": "docker: build master",
@@ -95,5 +106,19 @@
                 "&& conda run --no-capture-output -n marker pip install -r requirements.override.txt",
             ]
         }
+    ],
+    "inputs": [
+        {
+            "id": "docker-up-path",
+            "type": "pickString",
+            "description": "Select startup path of docker compose",
+            "default": "",
+            "options": [
+                "up@cpu",
+                "up@gpu",
+                "up.gradio@cpu",
+                "up.gradio@gpu",
+            ]
+        },
     ]
 }

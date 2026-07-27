@@ -1,45 +1,84 @@
-
-FROM alpine/curl:latest AS fonts
-
-WORKDIR /fonts
-
-RUN curl -L -o /fonts/GoNotoCurrent-Regular.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCurrent-Regular.ttf \
-    && curl -L -o /fonts/GoNotoCJKCore.ttf https://github.com/satbyy/go-noto-universal/releases/download/v7.0/GoNotoCJKCore.ttf
-
-
 FROM pytorch/pytorch:2.13.0-cuda12.6-cudnn9-runtime
+
+ARG LLAMA_CPP_CPU_URL=https://github.com/ggml-org/llama.cpp/releases/download/b10107/llama-b10107-bin-ubuntu-x64.tar.gz
+ARG LLAMA_CPP_CUDA_URL=https://github.com/ai-dock/llama.cpp-cuda/releases/download/b10107/llama.cpp-b10107-cuda-12.8-amd64.tar.gz
 
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    python3-pip \
-    libgl1-mesa-glx \
+    python3-venv \
+    libgl1 \
     libsm6 \
     libxext6 \
     libglib2.0-0 \
+    libgomp1 \
     libxrender-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip
+RUN mkdir -p /opt/llama.cpp/cpu /opt/llama.cpp/cuda /tmp/llama.cpp/cpu /tmp/llama.cpp/cuda \
+    && curl -L "${GITHUB_PROXY}${LLAMA_CPP_CPU_URL}" -o /tmp/llama.cpp/cpu.tar.gz \
+    && tar -xzf /tmp/llama.cpp/cpu.tar.gz -C /tmp/llama.cpp/cpu \
+    && llama_server="$(find /tmp/llama.cpp/cpu -type f -name llama-server -print -quit)" \
+    && test -n "${llama_server}" \
+    && cp -a "$(dirname "${llama_server}")"/. /opt/llama.cpp/cpu/ \
+    && chmod +x /opt/llama.cpp/cpu/llama-server \
+    && curl -L "${GITHUB_PROXY}${LLAMA_CPP_CUDA_URL}" -o /tmp/llama.cpp/cuda.tar.gz \
+    && tar -xzf /tmp/llama.cpp/cuda.tar.gz -C /tmp/llama.cpp/cuda \
+    && llama_server="$(find /tmp/llama.cpp/cuda -type f -name llama-server -print -quit)" \
+    && test -n "${llama_server}" \
+    && cp -a "$(dirname "${llama_server}")"/. /opt/llama.cpp/cuda/ \
+    && chmod +x /opt/llama.cpp/cuda/llama-server \
+    && rm -rf /tmp/llama.cpp
+
+RUN { \
+        for dir in /usr/local/cuda/lib64 /usr/local/cuda/compat; do \
+            [ -d "${dir}" ] && printf '%s\n' "${dir}"; \
+        done; \
+        find /usr/local/lib /usr/lib \
+            \( -path '*/site-packages/nvidia/*/lib' -o -path '*/dist-packages/nvidia/*/lib' \) \
+            -type d -print 2>/dev/null || true; \
+    } | sort -u > /etc/ld.so.conf.d/llama-cuda.conf \
+    && ldconfig
+
+RUN printf '%s\n' \
+    '#!/usr/bin/env sh' \
+    'set -eu' \
+    'if [ "${LLAMA_CPP_FORCE_CPU:-}" = "1" ]; then' \
+    '    LLAMA_CPP_HOME=/opt/llama.cpp/cpu' \
+    'elif { command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi -L >/dev/null 2>&1; } || [ -e /dev/nvidia0 ] || [ -e /dev/nvidiactl ]; then' \
+    '    LLAMA_CPP_HOME=/opt/llama.cpp/cuda' \
+    'else' \
+    '    LLAMA_CPP_HOME=/opt/llama.cpp/cpu' \
+    'fi' \
+    'CUDA_LIBRARY_PATHS="$(find /usr/local/lib /usr/lib \( -path '"'"'*/site-packages/nvidia/*/lib'"'"' -o -path '"'"'*/dist-packages/nvidia/*/lib'"'"' \) -type d -print 2>/dev/null | paste -sd: -)"' \
+    'COMMON_LIBRARY_PATHS="$(for dir in /usr/local/cuda/lib64 /usr/local/cuda/compat; do [ -d "${dir}" ] && printf "%s\n" "${dir}"; done | paste -sd: -)"' \
+    'export LD_LIBRARY_PATH="${LLAMA_CPP_HOME}:${CUDA_LIBRARY_PATHS}:${COMMON_LIBRARY_PATHS}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"' \
+    'exec "${LLAMA_CPP_HOME}/llama-server" "$@"' \
+    > /usr/local/bin/llama-server \
+    && chmod +x /usr/local/bin/llama-server
+
+RUN python3 -m venv --system-site-packages /opt/venv \
+    && /opt/venv/bin/python -m pip install --upgrade pip
 
 COPY ./marker /app
 # The image is too large, with layers exceeding 10GB.
-# RUN pip3 install poetry
+# RUN /opt/venv/bin/python -m pip install poetry
 # RUN poetry install --no-root --with dev
-RUN pip3 install --no-cache-dir \
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
     -e .
 
 # Lock streamlit version
-RUN pip3 install --no-cache-dir \
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
     streamlit==1.59.2 \
     streamlit-ace==0.1.1
 
 # Lock gradio version
-RUN pip3 install --no-cache-dir \
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
     gradio[mcp]==5.28.0
 
 # Override incorrect version
-RUN pip3 install --no-cache-dir \
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
     pypdfium2==4.30.0 \
     pdftext==0.6.3 \
     mcp==1.7.1 \
@@ -53,6 +92,7 @@ EXPOSE 7860
 VOLUME /root/.cache
 
 ENV APP_PATH=/app
+ENV PATH="/opt/venv/bin:${PATH}"
 ENV GRADIO_SERVER_NAME="0.0.0.0"
 
 CMD ["marker_gui"]

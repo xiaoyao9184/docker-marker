@@ -1,0 +1,136 @@
+
+
+services:
+  surya_llm:
+    profiles:
+      - vllm
+    # Qwen 3.5 on cpu support by 0.21.0 https://github.com/vllm-project/vllm/pull/41025
+    # BUT Still running slowly
+    image: vllm/vllm-openai-cpu:v0.21.0-x86_64
+    container_name: surya_ocr_llm
+    shm_size: 4g
+    cap_add:
+      - SYS_NICE
+    security_opt:
+      - seccomp=unconfined
+    command:
+      - "--model"
+      - "datalab-to/surya-ocr-2"
+      - "--revision"
+      - "3b3d4cd"
+      - "--no-enforce-eager"
+      - "--max-num-seqs"
+      - "${VLLM_MAX_NUM_SEQS:-1}"
+      - "--dtype"
+      - "bfloat16"
+      - "--max-model-len"
+      - "${VLLM_MAX_MODEL_LEN:-8192}"
+      - "--max-num-batched-tokens"
+      - "${VLLM_MAX_NUM_BATCHED_TOKENS:-4096}"
+      - "--mm-processor-kwargs"
+      - '{"min_pixels": 3136, "max_pixels": ${VLLM_MAX_PIXELS:-1254400}}'
+      - "--served-model-name"
+      - "datalab-to/surya-ocr-2"
+    environment:
+      - HF_HUB_OFFLINE=true
+      - VLLM_CPU_KVCACHE_SPACE=${VLLM_CPU_KVCACHE_SPACE:-4}
+      - VLLM_CPU_OMP_THREADS_BIND=${VLLM_CPU_OMP_THREADS_BIND:-auto}
+      - VLLM_CPU_NUM_OF_RESERVED_CPU=${VLLM_CPU_NUM_OF_RESERVED_CPU:-1}
+    ports:
+      - 8000
+    volumes:
+      - ./../../cache:/root/.cache
+
+  surya_text_detection:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_text_detection
+    command:
+      - "python"
+      - "-m"
+      - "surya.detection.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8001"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/text_detection/2025_05_07"
+    environment:
+      - TORCH_DEVICE=cpu
+      - HF_HUB_OFFLINE=true
+      - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
+    ports:
+      - 8001
+    volumes:
+      - ./../../cache:/root/.cache
+
+  surya_fast_layout:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_fast_layout
+    command:
+      - "python"
+      - "-m"
+      - "surya.fast_layout.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8002"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/surya_layout2/0aee81d"
+    environment:
+      - TORCH_DEVICE=cpu
+      - HF_HUB_OFFLINE=true
+      - FAST_LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d
+      - FAST_ORDER_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d/order
+    ports:
+      - 8002
+    volumes:
+      - ./../../cache:/root/.cache
+
+  surya_ocr_error:
+    profiles:
+      - server
+    image: xiaoyao9184/surya:0.22.0
+    container_name: surya_ocr_error
+    command:
+      - "python"
+      - "-m"
+      - "surya.ocr_error.server"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8003"
+      - "--checkpoint"
+      - "/root/.cache/datalab/models/ocr_error_detection/2025_02_18"
+    environment:
+      - TORCH_DEVICE=cpu
+      - HF_HUB_OFFLINE=true
+      - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
+    ports:
+      - 8003
+    volumes:
+      - ./../../cache:/root/.cache
+
+  marker_gradio:
+    image: xiaoyao9184/marker:2.0.0
+    container_name: marker_pdf_gradio
+    working_dir: /workspace/gradio
+    command: gradio gradio_app.py
+    environment:
+      - TORCH_DEVICE=cpu
+      - HF_HUB_OFFLINE=true
+      - DETECTOR_MODEL_CHECKPOINT=/root/.cache/datalab/models/text_detection/2025_05_07
+      - OCR_ERROR_MODEL_CHECKPOINT=/root/.cache/datalab/models/ocr_error_detection/2025_02_18
+      - FAST_LAYOUT_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d
+      - FAST_ORDER_MODEL_CHECKPOINT=/root/.cache/datalab/models/surya_layout2/0aee81d/order
+      - SURYA_GGUF_LOCAL_MODEL_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2.gguf
+      - SURYA_GGUF_LOCAL_MMPROJ_PATH=/root/.cache/huggingface/hub/models--datalab-to--surya-ocr-2-gguf/snapshots/6a3a4c30e5e74446d4f8b6afd05b2f2da970f470/surya-2-mmproj.gguf
+      - SURYA_INFERENCE_BACKEND=${SURYA_INFERENCE_BACKEND:-}
+      - SURYA_INFERENCE_URL=${SURYA_INFERENCE_URL:-}
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./../../cache:/root/.cache
